@@ -4,11 +4,11 @@
  */
 package data;
 
+import business.Appointments;
 import business.Users;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.LinkedHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,16 +19,6 @@ import java.util.logging.Logger;
  */
 public class BookingDB {
     private static final Logger LOG = Logger.getLogger(BookingDB.class.getName());
-    
-//    we need: 
-//    get all users
-//    get specific user?
-//    insert new user
-//    get doctors
-//    get appointments
-//    update user
-//    delete user
-//    might need more
 
     public static void insertNewUser(Users user) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
@@ -65,8 +55,6 @@ public class BookingDB {
                 LOG.log(Level.SEVERE, "*** insert null pointer??", e);
                 throw e;
             }
-
-           
         }
     }
 
@@ -115,164 +103,334 @@ public class BookingDB {
                 LOG.log(Level.SEVERE, "*** select all null pointer??", e);
                 throw e;
             }
-
-           
         }
     }
     
-//    public static void update(Users user) throws SQLException {
-//        ConnectionPool pool = ConnectionPool.getInstance();
-//        Connection connection = pool.getConnection();
-//        PreparedStatement ps = null;
-//
-//        String query
-//                = "UPDATE usercredentials SET userName = ?, email = ?, password = ?, birthDate = ? "
-//                + "WHERE userName = ?";
-//        
-//        try {
-//            ps = connection.prepareStatement(query);
-//            ps.setString(1, user.getUsername());
-//            ps.setString(2, user.getEmail());
-//            ps.setString(3, user.getPassword());
-//            ps.setDate(4, Date.valueOf(user.getBirthDate()));
-//            ps.setString(5, user.getUsername());
-//            
-//            ps.executeUpdate();
-//        } catch (SQLException e) {
-//            LOG.log(Level.SEVERE, "*** insert sql", e);
-//            throw e;
-//            
-//        } finally {
-//            try {
-//                ps.close();
-//                pool.freeConnection(connection);
-//            } catch (Exception e) {
-//                LOG.log(Level.SEVERE, "*** insert null pointer??", e);
-//                throw e;
-//            }
-//
-//           
-//        }
-//    }
-//    
-//    public static void delete(Users user) throws SQLException {
-//        ConnectionPool pool = ConnectionPool.getInstance();
-//        Connection connection = pool.getConnection();
-//        PreparedStatement ps = null;
-//
-//        String query
-//                = "DELETE FROM usercredentials"
-//                + "WHERE userName = ?";
-//        
-//        try {
-//            ps = connection.prepareStatement(query);
-//            ps.setString(1, user.getUsername());
-//            
-//            ps.executeUpdate();
-//        } catch (SQLException e) {
-//            LOG.log(Level.SEVERE, "*** insert sql", e);
-//            throw e;
-//            
-//        } finally {
-//            try {
-//                ps.close();
-//                pool.freeConnection(connection);
-//            } catch (Exception e) {
-//                LOG.log(Level.SEVERE, "*** insert null pointer??", e);
-//                throw e;
-//            }
-//
-//           
-//        }
-//    }
-//    
-//    public static Users getUsername(String username) throws SQLException {
-//        ConnectionPool pool = ConnectionPool.getInstance();
-//        Connection connection = pool.getConnection();
-//        PreparedStatement ps = null;
-//        ResultSet rs = null;
-//
-//        String query
-//                = "SELECT * FROM usercredentials "
-//                + "WHERE userName = ?";
-//        
-//        try {
-//            ps = connection.prepareStatement(query);
-//            ps.setString(1, username);
-//            
-//            rs = ps.executeQuery();
-//            
-//            Users user = null;
-//            
-//            if(rs.next()) {
-//                String userName = rs.getString("userName");
-//                String email = rs.getString("email");
-//                String password = rs.getString("password");
-//                LocalDate birthDate = rs.getDate("birthDate").toLocalDate();
-//                user = new Users(userName, email, password, birthDate);
-//                
-//                
-//            }
-//            return user;
-//                
-//        } catch (SQLException e) {
-//            LOG.log(Level.SEVERE, "*** insert sql", e);
-//            throw e;
-//            
-//        } finally {
-//            try {
-//                ps.close();
-//                pool.freeConnection(connection);
-//            } catch (Exception e) {
-//                LOG.log(Level.SEVERE, "*** insert null pointer??", e);
-//                throw e;
-//            } 
-//        }
-//        
-//    }
-//    
-//    public static Users getEmail(String email) throws SQLException {
-//        ConnectionPool pool = ConnectionPool.getInstance();
-//        Connection connection = pool.getConnection();
-//        PreparedStatement ps = null;
-//        ResultSet rs = null;
-//
-//        String query
-//                = "SELECT * FROM usercredentials "
-//                + "WHERE email = ?";
-//        
-//        try {
-//            ps = connection.prepareStatement(query);
-//            ps.setString(1, email);
-//            
-//            rs = ps.executeQuery();
-//            
-//            Users user = null;
-//            
-//            if(rs.next()) {
-//                String userName = rs.getString("userName");
-//                String userEmail = rs.getString("email");
-//                String password = rs.getString("password");
-//                LocalDate birthDate = rs.getDate("birthDate").toLocalDate();
-//                user = new Users(userName, userEmail, password, birthDate);
-//                
-//                
-//            }
-//            return user;
-//                
-//        } catch (SQLException e) {
-//            LOG.log(Level.SEVERE, "*** insert sql", e);
-//            throw e;
-//            
-//        } finally {
-//            try {
-//                ps.close();
-//                pool.freeConnection(connection);
-//            } catch (Exception e) {
-//                LOG.log(Level.SEVERE, "*** insert null pointer??", e);
-//                throw e;
-//            } 
-//        }
-//        
-//    }
+    public static void updateUser(Users user) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "UPDATE users SET firstName = ?, lastName = ?, address = ?, city = ?, state = ?, zipCode = ?, phoneNumber = ?, email = ?, role = ?, password = ? "
+                + "WHERE userID = ?";
+        
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, user.getUserID());
+            ps.setString(2, user.getFirstName());
+            ps.setString(3, user.getLastName());
+            ps.setString(4, user.getAddress());
+            ps.setString(5, user.getCity());
+            ps.setString(6, user.getState());
+            ps.setInt(7, user.getZipCode());
+            ps.setString(8, user.getPhoneNumber());
+            ps.setString(9, user.getEmail());
+            ps.setString(10, user.getRole());
+            
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** insert sql", e);
+            throw e;
+            
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** insert null pointer??", e);
+                throw e;
+            }
+        }
+    }
+    
+    public static void deleteUsers(Users user) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "DELETE FROM users"
+                + "WHERE userID = ?";
+        
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, user.getUserID());
+            
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** insert sql", e);
+            throw e;
+            
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** insert null pointer??", e);
+                throw e;
+            }
+        }
+    }
+    
+    public static Users getEmailUsername(String emailAddress) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query
+                = "SELECT * FROM users "
+                + "WHERE email = ?";
+        
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, emailAddress);
+            
+            rs = ps.executeQuery();
+            
+            Users user = null;
+            
+            if(rs.next()) {
+                int userID = rs.getInt("userID");
+                String firstName = rs.getString("firstName");
+                String lastName = rs.getString("lastName");
+                String address = rs.getString("address");
+                String city = rs.getString("city");
+                String state = rs.getString("state");
+                int zipCode = rs.getInt("zipCode");
+                String phoneNumber = rs.getString("phoneNumber");
+                String email = rs.getString("email");
+                String role = rs.getString("role");
+                String password = rs.getString("password");
+                user = new Users(userID, firstName, lastName, address, city, state, zipCode, phoneNumber, email, role, password);
+                
+                
+            }
+            return user;
+                
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** insert sql", e);
+            throw e;
+            
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** insert null pointer??", e);
+                throw e;
+            } 
+        }
+    }
+    
+    
+    
+    public static Users getAllDoctors(String roleName) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query
+                = "SELECT * FROM users "
+                + "WHERE role = ?";
+        
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, roleName);
+            
+            rs = ps.executeQuery();
+            
+            Users user = null;
+            
+            if(rs.next()) {
+                int userID = rs.getInt("userID");
+                String firstName = rs.getString("firstName");
+                String lastName = rs.getString("lastName");
+                String address = rs.getString("address");
+                String city = rs.getString("city");
+                String state = rs.getString("state");
+                int zipCode = rs.getInt("zipCode");
+                String phoneNumber = rs.getString("phoneNumber");
+                String email = rs.getString("email");
+                String role = rs.getString("role");
+                String password = rs.getString("password");
+                user = new Users(userID, firstName, lastName, address, city, state, zipCode, phoneNumber, email, role, password);   
+            }
+            return user;
+                
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** insert sql", e);
+            throw e;
+            
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** insert null pointer??", e);
+                throw e;
+            } 
+        }   
+    }
+    
+    public static void insertNewAppointment(Appointments appointment) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "INSERT INTO appointmentinfo (apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setDate(1, Date.valueOf(appointment.getApptDate()));
+            ps.setTime(2, Time.valueOf(appointment.getApptTime()));
+            ps.setInt(3, appointment.getUserID());
+            ps.setString(4, appointment.getUserFirstName());
+            ps.setString(5, appointment.getUserLastName());
+            ps.setString(6, appointment.getDoctorFirstName());
+            ps.setString(7, appointment.getDoctorLastName());
+            ps.setString(8, appointment.getApptType());
+            ps.setString(9, appointment.getReasonForVisit());
+            ps.setString(10, appointment.getInsuranceProvider());
+            ps.setString(10, appointment.getInsurancePlanNum());
+            
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** insert sql", e);
+            throw e;
+            
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** insert null pointer??", e);
+                throw e;
+            }
+        }
+    }
+    
+    public static LinkedHashMap<Integer, Appointments> selectAllAppointments() throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query = "SELECT * FROM appointments";
+        try {
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            
+            Appointments appointment = null;
+            LinkedHashMap<Integer, Appointments> appointments = new LinkedHashMap();
+
+            while (rs.next()) {
+                int apptID = rs.getInt("apptID");
+                LocalDate apptDate = rs.getDate("apptDate").toLocalDate();
+                LocalTime apptTime = rs.getTime("apptTime").toLocalTime();
+                int userID = rs.getInt("userID");
+                String userFirstName = rs.getString("userFirstName");
+                String userLastName = rs.getString("userLastName");
+                String doctorFirstName = rs.getString("doctorFirstName");
+                String doctorLastName = rs.getString("doctorLastName");
+                String apptType = rs.getString("apptType");
+                String reasonForVisit = rs.getString("reasonForVisit");
+                String insuranceProvider = rs.getString("insuranceProvider");
+                String insurancePlanNum = rs.getString("insurancePlanNum");
+                
+                appointment = new Appointments(apptID, apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum);
+                
+                appointments.put(userID, appointment);
+            }
+            return appointments;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** select all sql", e);
+            throw e;
+            
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** select all null pointer??", e);
+                throw e;
+            }
+        }
+    }
+    
+    public static void updateAppointment(Appointments appointment) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "UPDATE users SET apptDate = ?, apptTime = ?, userID = ?, userFirstName = ?, userLastName = ?, doctorFirstName = ?, doctorLastName = ?, apptType = ?, reasonForVisit = ?, insuranceProvider = ?, insurancePlanNum = ? "
+                + "WHERE apptID = ?";
+        
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, appointment.getApptID());
+            ps.setDate(2, Date.valueOf(appointment.getApptDate()));
+            ps.setTime(3, Time.valueOf(appointment.getApptTime()));
+            ps.setInt(4, appointment.getUserID());
+            ps.setString(5, appointment.getUserFirstName());
+            ps.setString(6, appointment.getUserLastName());
+            ps.setString(7, appointment.getDoctorFirstName());
+            ps.setString(8, appointment.getDoctorLastName());
+            ps.setString(9, appointment.getApptType());
+            ps.setString(10, appointment.getReasonForVisit());
+            ps.setString(11, appointment.getInsuranceProvider());
+            ps.setString(12, appointment.getInsurancePlanNum());
+            
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** insert sql", e);
+            throw e;
+            
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** insert null pointer??", e);
+                throw e;
+            }
+        }
+    }
+    
+    public static void deleteAppointment(Appointments appointment) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "DELETE FROM appointments"
+                + "WHERE apptID = ?";
+        
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, appointment.getApptID());
+            
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** insert sql", e);
+            throw e;
+            
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** insert null pointer??", e);
+                throw e;
+            }
+        }
+    }
+    
+
 }
