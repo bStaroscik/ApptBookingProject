@@ -4,11 +4,16 @@
  */
 package controllers;
 
+import business.Appointments;
 import business.Users;
 import data.BookingDB;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -106,5 +111,77 @@ public class Private extends HttpServlet{
                 url = "/target.jsp";
             }
         }
+         switch (action) {
+            case "logout": {
+                session.invalidate();
+                url = "/index.html";
+                break;
+            }
+            case "getDoctorsAppointments":{
+                if (user == null || user.equals("")) {
+                    //INVALID LOGIN - set generic error message and take them to index
+                    message = "Your password is incorrect";
+                    url = "/index.html";
+                } else {
+                    //Gets current doctors appointments from BookingDB and sets them in a variable sent to the page
+                    url = "/DoctorsAppointments.jsp";
+                    LinkedHashMap<Integer, Appointments> Appointments = new LinkedHashMap();
+                    try {
+                        Appointments = BookingDB.selectAllAppointments();
+                        request.setAttribute("Appointments", Appointments);
+                    } catch (Exception e) {
+                        LOG.log(Level.SEVERE, null, e);                    
+                    }
+                }
+                break;
+            }
+            case "editNotes":{   
+                url = "/editNotes.jsp";
+
+                LinkedHashMap<Integer, Appointments> notes = new LinkedHashMap();
+                try {
+                    notes = BookingDB.getAllNotes();
+
+                } catch (Exception e) {
+                }
+                request.setAttribute("notes", notes);
+                String idValue = request.getParameter("idValue");
+
+                Appointments currentNotes = notes.get(Integer.valueOf(idValue));
+                request.setAttribute("idValue", idValue);
+                request.setAttribute("noteText", currentNotes.getNotes());
+
+                break;
+            }
+            case "submitEdit": {
+                LinkedHashMap<Integer, Appointments> notes = new LinkedHashMap();
+                try {
+                    notes = BookingDB.getAllNotes();
+                } catch (Exception e) {
+                }
+                String idValue = (String) request.getParameter("idValue");
+                String noteText = (String) request.getParameter("noteText");
+
+                Appointments newNotes = notes.get(Integer.valueOf(idValue));
+                try {
+                    BookingDB.updateNotes(newNotes.getApptID(), noteText);
+                } catch (Exception e) {
+                }
+                try {
+                    notes = BookingDB.selectAllAppointments();
+
+                } catch (Exception e) {
+                }
+                request.setAttribute("Appointments", notes);
+                url = "/DoctorsAppointments.jsp";
+                break;
+            }
+
+        }
+        //regardless of what happens put the message in the request and forward
+        // to url
+        request.setAttribute("message", message);
+
+        getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 }

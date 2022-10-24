@@ -24,8 +24,10 @@ public class Appointments {
     private String reasonForVisit;
     private String insuranceProvider;
     private String insurancePlanNum;
+    private String notes;
 
-    public Appointments(int apptID, LocalDate apptDate, LocalTime apptTime, int userID, String userFirstName, String userLastName, String doctorFirstName, String doctorLastName, String apptType, String reasonForVisit, String insuranceProvider, String insurancePlanNum) {
+
+    public Appointments(int apptID, LocalDate apptDate, LocalTime apptTime, int userID, String userFirstName, String userLastName, String doctorFirstName, String doctorLastName, String apptType, String reasonForVisit, String insuranceProvider, String insurancePlanNum, String notes) {
         this.apptID = apptID;
         this.apptDate = apptDate;
         this.apptTime = apptTime;
@@ -38,6 +40,7 @@ public class Appointments {
         this.reasonForVisit = reasonForVisit;
         this.insuranceProvider = insuranceProvider;
         this.insurancePlanNum = insurancePlanNum;
+        this.notes = notes;
     }
 
     public Appointments() {
@@ -137,5 +140,13 @@ public class Appointments {
 
     public void setInsurancePlanNum(String insurancePlanNum) {
         this.insurancePlanNum = insurancePlanNum;
+    }
+    
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }
