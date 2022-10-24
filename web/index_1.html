@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<!--
+    Document   : index
+    Created on : Oct 12, 2022, 09:17:50 AM
+    Author     : Haiyan
+-->
+
+ 
+    <head>
+        <title>Home</title>
+        
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+        .container{
+            width: 100%;
+            height: 100px;
+            background:darkseagreen;            
+        }
+        li{
+            float:left;
+            text-decoration: none;
+            list-style: none;
+            padding:10px;
+        }
+        li a{float:left;
+             display: block;
+             padding: 20px;
+             font-size:25px;
+             color:whitesmoke;
+             text-decoration: none;
+             font-family: Arial, Helvetica, sans-serif;
+        }
+        nav ul li a:hover {
+            background-color: forestgreen;            
+        }
+        body{
+            background-image: url('bkgd_img1.jpg');          
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+        h1{ font-family: Arial, Helvetica, sans-serif;
+            text-align: right;
+            margin-right: 20px;
+            margin-top: 125px;
+            color:darkgreen;
+            font-size:2.2em;  
+            font-weight: bold;
+        }
+        .welcome{ font-family: Arial, Helvetica, sans-serif;
+            text-align: left;
+            float: right;
+            margin-right:60px;
+            font-size: 1.5em;
+        }
+        a{text-decoration: none;
+          font-size:1.2em;        
+        }
+        a:hover{color:orange;}
+      
+        </style>
+    </head>
+        
+    <body>
+       
+        <div class="container">
+            <nav>
+                <ul>
+                    <li><a href="index.html">HOME</a></li> 
+                    <li><a href="#">CLINIC INFO</a></li> 
+                    <li><a href="#">ABOUT</a></li>
+                    <li><a href="register.jsp">REGISTER</a></li> 
+                    <li><a href="login.jsp">LOGIN</a></li>   
+                      
+                </ul>                    
+            </nav>
+        </div>
+    
+        <main>
+            <div>   
+            <h1>Welcome to schedule doctor appointments</h1><br><br>
+            </div>
+        <div class='welcome'>
+            <p>It looks like you are first time here. Can we help you set up?</p><br>
+        <p>Please help me <a href="register.jsp"><b><i>Sign up</i></b> >></a></p>
+        <p>I'm a returning user to <a href="login.jsp"> <b><i>Log in</i></b> >></a></p>
+        </div>
+        </main>
+        
+    </body>
+
