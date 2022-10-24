@@ -18,5 +18,9 @@
             out.print("Welcome" + str);
         %>
         </font>
+        <h1>This is a placeholder for All Appointments Link</h1>
+        <h1>This is a placeholder for Accept/Decline Appointments Link</h1>
+        <h1>This is a placeholder for Booking Appointments Link</h1>
+        <h1>This is a placeholder for Recent Appointments Link</h1>
     </body>
 </html>
