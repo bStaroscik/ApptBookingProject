@@ -69,7 +69,7 @@ public class Private extends HttpServlet{
                 HashMap<String, String> errors = new HashMap();
                 try {
                     //Not active yet in BookingDB
-                    user = BookingDB.getEmailUserName(userName);
+                    user = BookingDB.getEmailUsername(userName);
                 } catch (Exception ex) {
                     errors.put("SelectAll", "Something went wrong with the Database, please try again");
                 }
