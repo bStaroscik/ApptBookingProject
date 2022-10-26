@@ -320,7 +320,7 @@ public class BookingDB {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String query = "SELECT * FROM appointments";
+        String query = "SELECT * FROM appointmentinfo";
         try {
             ps = connection.prepareStatement(query);
             rs = ps.executeQuery();
@@ -370,7 +370,7 @@ public class BookingDB {
         PreparedStatement ps = null;
 
         String query
-                = "UPDATE users SET apptDate = ?, apptTime = ?, userID = ?, userFirstName = ?, userLastName = ?, doctorFirstName = ?, doctorLastName = ?, apptType = ?, reasonForVisit = ?, insuranceProvider = ?, insurancePlanNum = ? "
+                = "UPDATE appointmentInfo SET apptDate = ?, apptTime = ?, userID = ?, userFirstName = ?, userLastName = ?, doctorFirstName = ?, doctorLastName = ?, apptType = ?, reasonForVisit = ?, insuranceProvider = ?, insurancePlanNum = ? "
                 + "WHERE apptID = ?";
         
         try {
@@ -410,7 +410,7 @@ public class BookingDB {
         PreparedStatement ps = null;
 
         String query
-                = "DELETE FROM appointments"
+                = "DELETE FROM appointmentinfo"
                 + "WHERE apptID = ?";
         
         try {
