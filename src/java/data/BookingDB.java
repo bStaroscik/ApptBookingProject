@@ -224,7 +224,57 @@ public class BookingDB {
         }
     }
     
-    
+    public static LinkedHashMap<Integer, Appointments> selectLoggedInUserAppointments(int loggedInUserID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query = "SELECT * FROM appointmentinfo "
+                     + "WHERE userID = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, loggedInUserID);
+            rs = ps.executeQuery();
+            
+            Appointments appointment = null;
+            LinkedHashMap<Integer, Appointments> appointments = new LinkedHashMap();
+
+            while (rs.next()) {
+                int apptID = rs.getInt("apptID");
+                LocalDate apptDate = rs.getDate("apptDate").toLocalDate();
+                LocalTime apptTime = rs.getTime("apptTime").toLocalTime();
+                int userID = rs.getInt("userID");
+                String userFirstName = rs.getString("userFirstName");
+                String userLastName = rs.getString("userLastName");
+                String doctorFirstName = rs.getString("doctorFirstName");
+                String doctorLastName = rs.getString("doctorLastName");
+                String apptType = rs.getString("apptType");
+                String reasonForVisit = rs.getString("reasonForVisit");
+                String insuranceProvider = rs.getString("insuranceProvider");
+                String insurancePlanNum = rs.getString("insurancePlanNum");
+                String notes = rs.getString("notes");                
+                
+                appointment = new Appointments(apptID, apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum, notes);
+                
+                appointments.put(userID, appointment);
+            }
+            return appointments;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** select all sql", e);
+            throw e;
+            
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** select all null pointer??", e);
+                throw e;
+            }
+        }
+    }
     
     public static Users getAllDoctors(String roleName) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
@@ -320,7 +370,7 @@ public class BookingDB {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String query = "SELECT * FROM appointments";
+        String query = "SELECT * FROM appointmentinfo";
         try {
             ps = connection.prepareStatement(query);
             rs = ps.executeQuery();
@@ -370,7 +420,7 @@ public class BookingDB {
         PreparedStatement ps = null;
 
         String query
-                = "UPDATE users SET apptDate = ?, apptTime = ?, userID = ?, userFirstName = ?, userLastName = ?, doctorFirstName = ?, doctorLastName = ?, apptType = ?, reasonForVisit = ?, insuranceProvider = ?, insurancePlanNum = ? "
+                = "UPDATE appointmentInfo SET apptDate = ?, apptTime = ?, userID = ?, userFirstName = ?, userLastName = ?, doctorFirstName = ?, doctorLastName = ?, apptType = ?, reasonForVisit = ?, insuranceProvider = ?, insurancePlanNum = ? "
                 + "WHERE apptID = ?";
         
         try {
@@ -410,7 +460,7 @@ public class BookingDB {
         PreparedStatement ps = null;
 
         String query
-                = "DELETE FROM appointments"
+                = "DELETE FROM appointmentinfo"
                 + "WHERE apptID = ?";
         
         try {
