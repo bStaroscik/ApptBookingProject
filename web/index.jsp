@@ -22,16 +22,7 @@
    <body>
        
         <div class="container">
-            <nav>
-                <ul>
-                    <li><a href="index.html">HOME</a></li> 
-                    <li><a href="#">CLINIC INFO</a></li> 
-                    <li><a href="#">ABOUT</a></li>
-                    <li><a href="register.jsp">REGISTER</a></li> 
-                    <li><a href="login.jsp">LOGIN</a></li>   
-                      
-                </ul>                    
-            </nav>
+            <jsp:include page="nav.jsp" />
         </div>
     
         <main>
@@ -71,7 +62,6 @@
             
         </table>
             </form>
-        <p>I'm a returning user to <a href="login.jsp"> <b><i>Log in</i></b> >></a></p>
         <p>Please help me <a href="register.jsp"><b><i>Sign up</i></b> >></a></p>
         </div>
         </main>
