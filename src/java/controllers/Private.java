@@ -96,8 +96,18 @@ public class Private extends HttpServlet {
                         //VALID LOGIN
                         session.setAttribute("user", user);
                         message = "Login Success";
+                        switch (user.getRole()) {
+                            case "doctor":
+                                url = "/DoctorsAppointments.jsp";
+                                break;
+                            case "patient":
+                                url = "/UserAppointments.jsp";
+                                break;
+                            default:
+                                url = "/AdminAllAppointments.jsp";
+                                break;
+                        }
 
-                        url = "/target.jsp";
                     } else {
                         message = "Incorrect Password";
                         request.setAttribute("message", message);
@@ -109,7 +119,17 @@ public class Private extends HttpServlet {
             } else {
                 //User still logged in
                 message = "You are still logged in";
-                url = "/target.jsp";
+                switch (user.getRole()) {
+                    case "doctor":
+                        url = "/DoctorsAppointments.jsp";
+                        break;
+                    case "patient":
+                        url = "/UserAppointments.jsp";
+                        break;
+                    default:
+                        url = "/AdminAllAppointments.jsp";
+                        break;
+                }
             }
         }
         switch (action) {
@@ -154,7 +174,7 @@ public class Private extends HttpServlet {
 
                 break;
             }
-            case "submitEdit": {
+            case "submitNotesEdit": {
                 LinkedHashMap<Integer, Appointments> notes = new LinkedHashMap();
                 try {
                     notes = BookingDB.getAllNotes();
@@ -177,17 +197,98 @@ public class Private extends HttpServlet {
                 url = "/DoctorsAppointments.jsp";
                 break;
             }
+            case "editProfile": { //for any user
+                request.setAttribute("user", user);
+                url = "EditUserProfile.jsp";
+                break;
+            }
+            case "submitProfileEdit": { //for any user
+                
+                //this needs more validation for other fields
+                
+                String stringEmail = request.getParameter("email");
+                String stringPassword = request.getParameter("password");
+                String userName = user.getEmail();
+                message = "";
+
+                if (stringEmail.length() < 5) {
+                    message += "Email must be more than 5 characters. ";
+                } else if (!stringEmail.contains("@") || !stringEmail.contains(".") || stringEmail.lastIndexOf("@") > stringEmail.lastIndexOf(".")) {
+                    message += "Email must contain @ and a period, period must be after the @. ";
+                } else {
+                    try {
+                        userCompare = BookingDB.getEmailUsername(stringEmail);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Public.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    if (userCompare == null) {
+                        user.setEmail(stringEmail);
+                    } else {
+                        if (user.getEmail().equals(userCompare.getEmail())) {
+
+                        } else {
+                            message += "Email already exists. ";
+                        }
+                    }
+
+                    request.setAttribute("email", stringEmail);
+
+                }
+
+                if (!"".equals(stringPassword)) {
+                    if (stringPassword.length() < 10) {
+                        message += "Password must be more than 10 characters. ";
+                    } else {
+
+                        SecretKeyCredentialHandler ch;
+
+                        try {
+                            ch = new SecretKeyCredentialHandler();
+                            ch.setAlgorithm("PBKDF2WithHmacSHA256");
+                            ch.setKeyLength(256);
+                            ch.setSaltLength(16);
+                            ch.setIterations(4096);
+
+                            hash = ch.mutate(stringPassword);
+                        } catch (Exception ex) {
+                            LOG.log(Level.SEVERE, null, ex);
+
+                        }
+                        user.setPassword(hash);
+                    }
+                }
+
+                if ("".equals(message)) {
+                    try {
+                        BookingDB.updateUser(user);
+                        message = "Update Success!";
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    request.setAttribute("message", message);
+                    request.setAttribute("user", user);
+                    url = "/target.jsp";
+                } else {
+                    request.setAttribute("message", message);
+                    request.setAttribute("user", user);
+                    request.setAttribute("userName", userName);
+                    url = "/target.jsp";
+                }
+                break;
+            }
             case "getUserAppointments": {
                 if (user == null || user.equals("")) {
                     //INVALID LOGIN - set generic error message and take them to index
                     message = "Your password is incorrect";
                     url = "/index.html";
                 } else {
-                    //Gets current doctors appointments from BookingDB and sets them in a variable sent to the page
-                    url = "/UserAppointments.jsp";
+                    //Gets current user appointments from BookingDB and sets them in a variable sent to the page
+                    url = "/UserAppointments.jsp"; //this is the page all patients first come to when they log in
                     LinkedHashMap<Integer, Appointments> Appointments = new LinkedHashMap();
                     try {
-//                        Appointments = BookingDB.selectAllLoggedInUserAppointments(user.);
+                        Appointments = BookingDB.selectLoggedInUserAppointments(user.getUserID());
                         request.setAttribute("Appointments", Appointments);
                     } catch (Exception e) {
                         LOG.log(Level.SEVERE, null, e);

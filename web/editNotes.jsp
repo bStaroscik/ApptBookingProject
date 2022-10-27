@@ -18,7 +18,7 @@
             <h1>Edit Notes</h1>
             <h2>${message}</h2>
             <form action="Private" method="post">
-                <input type="hidden" name="action" value="submitEdit"> 
+                <input type="hidden" name="action" value="submitNotesEdit"> 
                 <input type="hidden" name="idValue" value="${idValue}"> 
                 <div style="text-align: center;"><textarea style="text-align: center; width: 75%" type="text" name="postText" rows='10'cols='100' autofocus='true' maxlength='1024'>${noteText}</textarea></div>
                 <br>

@@ -1,2 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/BookingAppointment"/>
+<Context path="/BookingAppointment">
+<Resource name="jdbc/BAHR"
+auth="Container"
+type="javax.sql.DataSource"
+username="BAHRdata"
+password="Fall@2022"
+driverClassName="com.mysql.jdbc.Driver"
+url="jdbc:mysql:/p3nwplsk12sql-v18.shr.prod.phx3.secureserver.net:3306/BookingAppointment"
+maxActive="15"
+maxIdle="3"/>
+<CredentialHandler algorithm="PBKDF2WithHmacSHA256" className="org.apache.catalina.realm.SecretKeyCredentialHandler" iterations="4096" keyLength="256" saltLength="16"/>
+</Context>
