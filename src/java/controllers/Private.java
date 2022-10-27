@@ -104,7 +104,7 @@ public class Private extends HttpServlet {
                                 url = "/UserAppointments.jsp";
                                 break;
                             default:
-                                url = "/AdminAllAppointments.jsp";
+                                url = "/Admin.jsp";
                                 break;
                         }
 
@@ -127,10 +127,11 @@ public class Private extends HttpServlet {
                         url = "/UserAppointments.jsp";
                         break;
                     default:
-                        url = "/AdminAllAppointments.jsp";
+                        url = "/Admin.jsp";
                         break;
                 }
             }
+            request.setAttribute("message", message);
         }
         switch (action) {
             case "logout": {

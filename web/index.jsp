@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 
@@ -14,70 +15,21 @@
         
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-        .container{
-            width: 100%;
-            height: 100px;
-            background:darkseagreen;            
-        }
-        li{
-            float:left;
-            text-decoration: none;
-            list-style: none;
-            padding:10px;
-        }
-        li a{float:left;
-             display: block;
-             padding: 20px;
-             font-size:25px;
-             color:whitesmoke;
-             text-decoration: none;
-             font-family: Arial, Helvetica, sans-serif;
-        }
-        nav ul li a:hover {
-            background-color: forestgreen;            
-        }
-        body{
-            background-image: url('bkgd_img1.jpg');          
-            background-size: cover;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-            background-size: 100% 100%;
-        }
-        h1{ font-family: Arial, Helvetica, sans-serif;
-            text-align: right;
-            margin-right: 20px;
-            margin-top: 125px;
-            color:darkgreen;
-            font-size:2.2em;  
-            font-weight: bold;
-        }
-        .welcome{ font-family: Arial, Helvetica, sans-serif;
-            text-align: left;
-            float: right;
-            margin-right:60px;
-            font-size: 1.5em;
-        }
-        a{text-decoration: none;
-          font-size:1.2em;        
-        }
-        a:hover{color:orange;}
-      
-        </style>
+        <link rel="stylesheet" href="styles/main.css" type="text/css"/>
+
     </head>
         
-    <body>
+   <body>
        
         <div class="container">
             <nav>
                 <ul>
-                    <li><a href="index.jsp">HOME</a></li> 
+                    <li><a href="index.html">HOME</a></li> 
                     <li><a href="#">CLINIC INFO</a></li> 
                     <li><a href="#">ABOUT</a></li>
                     <li><a href="register.jsp">REGISTER</a></li> 
                     <li><a href="login.jsp">LOGIN</a></li>   
-                     <li><a href="ApptInfo.jsp">My ACCOUNT</a></li> 
-                       <li><a href="logout.jsp">LOGOUT</a></li> 
+                      
                 </ul>                    
             </nav>
         </div>
@@ -87,8 +39,40 @@
             <h1>Welcome to schedule doctor appointments</h1><br><br>
             </div>
         <div class='welcome'>
-            <p> </p><br>
-        
+            <p>It looks like you are first time here. Can we help you set up?</p><br>
+            <h3><c:out value="${message}" /></h3>
+            <form action="Private" method="post">
+                <input type="hidden" name="action" value="attemptLogin">
+                <table>
+            <tr>
+                <td>
+                    UserName:
+                </td>
+                <td>
+                    <input type="text" name="uname">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Password:
+                </td>
+                <td>
+                    <input type="password" name="upass">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="Submit">
+                </td>
+                <td>
+                    <input type="reset" value="Reset">
+                </td>
+            </tr>
+            
+        </table>
+            </form>
+        <p>I'm a returning user to <a href="login.jsp"> <b><i>Log in</i></b> >></a></p>
+        <p>Please help me <a href="register.jsp"><b><i>Sign up</i></b> >></a></p>
         </div>
         </main>
         
