@@ -9,9 +9,62 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Java Project</title>
+        <title>Home</title>
+        
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles/main.css" type="text/css"/>
+
     </head>
+        
+   <body>
+       
+        <div class="container">
+            <jsp:include page="nav.jsp" />
+        </div>
+    
+        <main>
+            <div>   
+            <h1>Welcome to schedule doctor appointments</h1><br><br>
+            </div>
+        <div class='welcome'>
+            <p>It looks like you are first time here. Can we help you set up?</p><br>
+            <h3><c:out value="${message}" /></h3>
+            <form action="Private" method="post">
+                <input type="hidden" name="action" value="attemptLogin">
+                <table>
+            <tr>
+                <td>
+                    UserName:
+                </td>
+                <td>
+                    <input type="text" name="uname">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Password:
+                </td>
+                <td>
+                    <input type="password" name="upass">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="Submit">
+                </td>
+                <td>
+                    <input type="reset" value="Reset">
+                </td>
+            </tr>
+            
+        </table>
+            </form>
+        <p>Please help me <a href="register.jsp"><b><i>Sign up</i></b> >></a></p>
+        </div>
+        </main>
+        
+    </body>
 
     <body>
         <div class="wrapper">
