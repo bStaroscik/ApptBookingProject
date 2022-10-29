@@ -40,7 +40,7 @@ public class Private extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String url = "/target.jsp";
+        String url = "/index.jsp";
         String message = "";
         String action = request.getParameter("action");
         String hash = "";
@@ -135,14 +135,14 @@ public class Private extends HttpServlet {
         switch (action) {
             case "logout": {
                 session.invalidate();
-                url = "/index.html";
+                url = "/index.jsp";
                 break;
             }
             case "getDoctorsAppointments": {
                 if (user == null || user.equals("")) {
                     //INVALID LOGIN - set generic error message and take them to index
                     message = "Your password is incorrect";
-                    url = "/index.html";
+                    url = "/index.jsp";
                 } else {
                     //Gets current doctors appointments from BookingDB and sets them in a variable sent to the page
                     url = "/DoctorsAppointments.jsp";
@@ -269,12 +269,12 @@ public class Private extends HttpServlet {
 
                     request.setAttribute("message", message);
                     request.setAttribute("user", user);
-                    url = "/target.jsp";
+                    url = "/UserAppointments.jsp";
                 } else {
                     request.setAttribute("message", message);
                     request.setAttribute("user", user);
                     request.setAttribute("userName", userName);
-                    url = "/target.jsp";
+                    url = "/EditUserProfile.jsp";
                 }
                 break;
             }
@@ -282,7 +282,7 @@ public class Private extends HttpServlet {
                 if (user == null || user.equals("")) {
                     //INVALID LOGIN - set generic error message and take them to index
                     message = "Your password is incorrect";
-                    url = "/index.html";
+                    url = "/index.jsp";
                 } else {
                     //Gets current user appointments from BookingDB and sets them in a variable sent to the page
                     url = "/UserAppointments.jsp"; //this is the page all patients first come to when they log in
