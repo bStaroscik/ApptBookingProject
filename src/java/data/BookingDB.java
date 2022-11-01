@@ -150,7 +150,7 @@ public class BookingDB {
         PreparedStatement ps = null;
 
         String query
-                = "DELETE FROM users"
+                = "DELETE FROM users "
                 + "WHERE userID = ?";
         
         try {
