@@ -26,7 +26,7 @@ public class BookingDB {
         PreparedStatement ps = null;
 
         String query
-                = "INSERT INTO users (firstName, lastName, address, city, state, zipCode, phoneNumber, email, Role, password) "
+                = "INSERT INTO BAHRdata.users (firstName, lastName, address, city, state, zipCode, phoneNumber, email, Role, password) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
@@ -64,7 +64,7 @@ public class BookingDB {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String query = "SELECT * FROM users";
+        String query = "SELECT * FROM BAHRdata.users";
         try {
             ps = connection.prepareStatement(query);
             rs = ps.executeQuery();
@@ -112,7 +112,7 @@ public class BookingDB {
         PreparedStatement ps = null;
 
         String query
-                = "UPDATE users SET firstName = ?, lastName = ?, address = ?, city = ?, state = ?, zipCode = ?, phoneNumber = ?, email = ?, role = ?, password = ? "
+                = "UPDATE BAHRdata.users SET firstName = ?, lastName = ?, address = ?, city = ?, state = ?, zipCode = ?, phoneNumber = ?, email = ?, role = ?, password = ? "
                 + "WHERE userID = ?";
         
         try {
@@ -150,7 +150,7 @@ public class BookingDB {
         PreparedStatement ps = null;
 
         String query
-                = "DELETE FROM users "
+                = "DELETE FROM BAHRdata.users "
                 + "WHERE userID = ?";
         
         try {
@@ -178,15 +178,11 @@ public class BookingDB {
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
-
-        String query
-                = "SELECT * FROM users "
-                + "WHERE email = ?";
-        
+        String query = "SELECT * FROM BAHRdata.users "
+                     + "WHERE email = ?";
         try {
             ps = connection.prepareStatement(query);
-            ps.setString(1, emailAddress);
-            
+            ps.setString(1, emailAddress);        
             rs = ps.executeQuery();
             
             Users user = null;
@@ -230,7 +226,7 @@ public class BookingDB {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String query = "SELECT * FROM appointmentinfo "
+        String query = "SELECT * FROM BAHRdata.appointmentinfo "
                      + "WHERE userID = ?";
         try {
             ps = connection.prepareStatement(query);
@@ -283,7 +279,7 @@ public class BookingDB {
         ResultSet rs = null;
 
         String query
-                = "SELECT * FROM users "
+                = "SELECT * FROM BAHRdata.users "
                 + "WHERE role = ?";
         
         try {
@@ -331,7 +327,7 @@ public class BookingDB {
         PreparedStatement ps = null;
 
         String query
-                = "INSERT INTO appointmentinfo (apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum) "
+                = "INSERT INTO BAHRdata.appointmentinfo (apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
@@ -370,7 +366,7 @@ public class BookingDB {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String query = "SELECT * FROM appointmentinfo";
+        String query = "SELECT * FROM BAHRdata.appointmentinfo";
         try {
             ps = connection.prepareStatement(query);
             rs = ps.executeQuery();
@@ -420,7 +416,7 @@ public class BookingDB {
         PreparedStatement ps = null;
 
         String query
-                = "UPDATE appointmentInfo SET apptDate = ?, apptTime = ?, userID = ?, userFirstName = ?, userLastName = ?, doctorFirstName = ?, doctorLastName = ?, apptType = ?, reasonForVisit = ?, insuranceProvider = ?, insurancePlanNum = ? "
+                = "UPDATE BAHRdata.appointmentInfo SET apptDate = ?, apptTime = ?, userID = ?, userFirstName = ?, userLastName = ?, doctorFirstName = ?, doctorLastName = ?, apptType = ?, reasonForVisit = ?, insuranceProvider = ?, insurancePlanNum = ? "
                 + "WHERE apptID = ?";
         
         try {
@@ -460,7 +456,7 @@ public class BookingDB {
         PreparedStatement ps = null;
 
         String query
-                = "DELETE FROM appointmentinfo"
+                = "DELETE FROM BAHRdata.appointmentinfo"
                 + "WHERE apptID = ?";
         
         try {
@@ -487,7 +483,7 @@ public class BookingDB {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
-        String query = "UPDATE Appointments SET notes = ? WHERE apptID = ?";
+        String query = "UPDATE BAHRdata.Appointments SET notes = ? WHERE apptID = ?";
         try {
             ps = connection.prepareStatement(query);
        
@@ -514,7 +510,7 @@ public class BookingDB {
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String query = "SELECT * FROM Appointments";
+        String query = "SELECT * FROM BAHRdata.Appointments";
         try {
             ps = connection.prepareStatement(query);
             rs = ps.executeQuery();
