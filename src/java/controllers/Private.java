@@ -200,7 +200,7 @@ public class Private extends HttpServlet {
             }
             case "editProfile": { //for any user
                 request.setAttribute("user", user);
-                url = "EditUserProfile.jsp";
+                url = "/EditUserProfile.jsp";
                 break;
             }
             case "submitProfileEdit": { //for any user

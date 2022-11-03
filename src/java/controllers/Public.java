@@ -22,9 +22,8 @@ import org.apache.catalina.realm.SecretKeyCredentialHandler;
  * @author Ashbb
  */
 public class Public extends HttpServlet {
-    
-    //this page still needs more validation for the rest of the fields
 
+    //this page still needs more validation for the rest of the fields
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -54,68 +53,113 @@ public class Public extends HttpServlet {
             String address = request.getParameter("address");
             String city = request.getParameter("city");
             String state = request.getParameter("state");
-            String zipCode = request.getParameter("zipCode");
+            String zip = request.getParameter("zipCode");
             String phoneNumber = request.getParameter("phoneNumber");
             String email = request.getParameter("email");
             String password = request.getParameter("password");
 
+            if (firstName.length() < 1) {
+                message += "Must Enter First Name.<br />";
+            } else {
+                request.setAttribute("firstName", firstName);
+                users.setFirstName(firstName);
+            }
+
+            if (lastName.length() < 1) {
+                message += "Must Enter Last Name.<br />";
+            } else {
+                request.setAttribute("lastName", lastName);
+                users.setLastName(lastName);
+            }
+
+            if (address.length() < 1) {
+                message += "Must Enter An Address.<br />";
+            } else {
+                request.setAttribute("address", address);
+                users.setAddress(address);
+            }
+
+            if (city.length() < 1) {
+                message += "Must Enter A City.<br />";
+            } else {
+                request.setAttribute("city", city);
+                users.setCity(city);
+            }
+
+            if (state.length() > 2 || state.length() < 1) {
+                message += "State Must Be In Abbreviated Format (XX).<br />";
+            } else {
+                request.setAttribute("state", state);
+                users.setState(state);
+            }
+
+            if (zip.length() > 6 || zip.length() < 1) {
+                message += "Zip Code Must Be 6 Digits.<br />";
+            } else {
+                int zipCode = Integer.parseInt(zip);
+                request.setAttribute("zipCode", zipCode);
+                users.setZipCode(zipCode);
+            }
+
+            if (phoneNumber.length() < 1) {
+                message += "Enter A Phone Number.<br />";
+            } else {
+                request.setAttribute("phoneNumber", phoneNumber);
+                users.setPhoneNumber(phoneNumber);
+            }
+
             if (email.length() < 5) {
-                message += "Email must be more than 5 characters. ";
+                message += "Email must be more than 5 characters.<br />";
             } else if (!email.contains("@") || !email.contains(".") || email.lastIndexOf("@") > email.lastIndexOf(".")) {
-                message += "Email must contain @ and a period, period must be after the @. ";
+                message += "Email must contain @ and a period, period must be after the @.<br />";
             } else {
                 try {
                     userCompare = BookingDB.getEmailUsername(email);
                 } catch (SQLException ex) {
                     Logger.getLogger(Public.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
                 if (userCompare != null) {
-                    message += "Email already exists. ";
+                    message += "Email already exists.<br />";
                 }
-
                 request.setAttribute("email", email);
                 users.setEmail(email);
             }
 
             if (password.length() < 10) {
-                message += "Password must be more than 10 characters. ";
+                message += "Password must be more than 10 characters.<br />";
             } else {
-
                 SecretKeyCredentialHandler ch;
-
                 try {
                     ch = new SecretKeyCredentialHandler();
                     ch.setAlgorithm("PBKDF2WithHmacSHA256");
                     ch.setKeyLength(256);
                     ch.setSaltLength(16);
                     ch.setIterations(4096);
-
                     hash = ch.mutate(password);
                 } catch (Exception ex) {
                     LOG.log(Level.SEVERE, null, ex);
-
                 }
                 request.setAttribute("password", password);
                 users.setPassword(hash);
             }
 
-            
-        }
+            users.setRole("patient");
 
-        request.setAttribute("message", message);
-        request.setAttribute("users", users);
+            request.setAttribute("message", message);
+            request.setAttribute("users", users);
 
-        if ("".equals(message)) {
-            success = "Registration was successful!";
-            request.setAttribute("success", success);
-            try {
-                BookingDB.insertNewUser(users);
-            } catch (SQLException ex) {
-                Logger.getLogger(Public.class.getName()).log(Level.SEVERE, null, ex);
+            if ("".equals(message)) {
+                success = "Registration was successful!";
+                request.setAttribute("success", success);
+                try {
+                    BookingDB.insertNewUser(users);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Public.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                url = "/AccountConfirmation.jsp";
             }
-        }
 
+        }
         getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 

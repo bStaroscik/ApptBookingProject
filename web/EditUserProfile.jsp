@@ -22,7 +22,7 @@
 
             <h3><c:out value="${message}"/></h3>  
             <div>
-                <p>Username: <c:out value="${user.userName}" /></p><!-- Display username -->
+                <p>Username: <c:out value="${user.email}" /></p><!-- Display username -->
                 <form action="private" method="post">
                     <label>First Name</label>
                     <input type="text" name="firstName" value="<c:out value="${users.firstName}" />">
@@ -63,8 +63,8 @@
                     <input type="hidden" name="action" value="submitProfileEdit">
                     <input type="submit" name ="submitProfileEdit" value="Submit Profile Edit">
                     
-                    <input type="hidden" name="action" value="logOut">
-                    <input type="submit" name ="logOut" value="Log Out">
+                    <input type="hidden" name="action" value="logout"> 
+                <td><input type="submit" value="Logout"></td>
                 </form>
             </div>
         </div>

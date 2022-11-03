@@ -11,17 +11,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Registration</title>
-        <link rel="stylesheet" href="newcss.css" type="text/css"/>
+        <link rel="stylesheet" href="styles/main.css" type="text/css"/>
     </head>
+    <jsp:include page="nav.jsp" /> 
 
     <body>
-        <!--        <div class="wrapper">-->
-        <div>
+        <div  class="wrapper">
             <h1>Registration</h1>
 
-            <%--<jsp:include page="nav.jsp" />--%> 
-
-            <h3>${message}</h3> 
+            <h3 style="color:red">${message}</h3> 
             <h3>${success}</h3>
 
             <p>${error}</p>
@@ -44,7 +42,7 @@
                     <label>City</label>
                     <input type="text" name="city" value="<c:out value="${users.city}" />">
                     <br>
-                    
+
                     <label>State</label>
                     <input type="text" name="state" value="<c:out value="${users.state}" />">
                     <br>
