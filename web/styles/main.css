@@ -27,7 +27,6 @@ nav ul li a:hover {
 }
 
 body {
-    background-image: url('bkgd_img1.jpg');
     background-size: cover;
     background-attachment: fixed;
     background-repeat: no-repeat;
@@ -145,5 +144,9 @@ th, td {
 th{
     color: khaki;
     background-color: black;
+    text-align: center;
+}
+
+nav {
     text-align: center;
 }

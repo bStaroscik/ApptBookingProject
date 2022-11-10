@@ -9,10 +9,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Admin Page</title>
+        <link rel="stylesheet" href="styles/main.css" type="text/css"/>
+        <title>Admin Home Page</title>
     </head>
-    <body bgcolor="black"><font color="red">
+    <body>
+        <div class="wrapper">
         <h1>This is an Admin Page</h1>
+        
+        <jsp:include page="AdminNav.jsp" /> 
         <%
             String str = (String) session.getAttribute("username");
             out.print("Welcome" + str);
@@ -22,5 +26,6 @@
         <h1>This is a placeholder for Accept/Decline Appointments Link</h1>
         <h1>This is a placeholder for Booking Appointments Link</h1>
         <h1>This is a placeholder for Recent Appointments Link</h1>
+        </div>
     </body>
 </html>

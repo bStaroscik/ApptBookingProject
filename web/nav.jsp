@@ -49,7 +49,7 @@
 </style>
 
 <nav style="text-align: center;">
-    <a href="Public?action=login"> Login </a>| <!--    target-->
+    <a href="index.jsp"> Login </a>| <!--    target-->
     <a href="Public?action=home"> Registration </a>| <!--    index-->
     <a href="Private?action=profile"> Home </a>| 
     <a href="Private?action=getDoctorsAppointments"> Doctor Appointments </a>|

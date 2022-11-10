@@ -1,7 +1,7 @@
 <%-- 
     Document   : index
     Created on : Oct 20, 2022, 10:08:47 PM
-    Author     : Haiyan
+    Author     : bstar
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -19,7 +19,7 @@
        
     <body>
         <div class="wrapper">
-            <h1>Ashley Login!</h1>
+            <h1>Appointment Booking Login!</h1>
 
             <jsp:include page="nav.jsp" /> 
 
