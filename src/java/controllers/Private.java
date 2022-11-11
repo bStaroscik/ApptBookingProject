@@ -148,7 +148,8 @@ public class Private extends HttpServlet {
                 url = "/index.jsp";
                 break;
             }
-//<editor-fold desc="Doctor">
+
+            //<editor-fold desc="Get Doctor Appointments">
             case "getDoctorsAppointments": {
                 if (user == null || user.equals("")) {
                     //INVALID LOGIN - set generic error message and take them to index
@@ -167,6 +168,9 @@ public class Private extends HttpServlet {
                 }
                 break;
             }
+            //</editor-fold>
+
+            //<editor-fold desc="Edit Doctor Notes">
             case "editNotes": {
                 url = "/editNotes.jsp";
 
@@ -185,6 +189,9 @@ public class Private extends HttpServlet {
 
                 break;
             }
+            //</editor-fold>
+
+            //<editor-fold desc="Submit Doctor Notes">
             case "submitNotesEdit": {
                 LinkedHashMap<Integer, Appointments> notes = new LinkedHashMap();
                 try {
@@ -208,15 +215,17 @@ public class Private extends HttpServlet {
                 url = "/DoctorsAppointments.jsp";
                 break;
             }
-//</editor-fold>
+            //</editor-fold>
 
+            //<editor-fold desc="Edit Profile Redirect">
             case "editProfile": { //for any user
                 request.setAttribute("user", user);
                 url = "/EditUserProfile.jsp";
                 break;
             }
+            //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Patient">    
+            //<editor-fold desc="Submit Edit Profile">
             case "submitProfileEdit": { //for any user
                 String firstName = request.getParameter("firstName");
                 String lastName = request.getParameter("lastName");
@@ -347,6 +356,9 @@ public class Private extends HttpServlet {
                 }
                 break;
             }
+            //</editor-fold>
+
+            //<editor-fold desc="Get Patient Appts"> 
             case "getUserAppointments": {
                 if (user == null || user.equals("")) {
                     //INVALID LOGIN - set generic error message and take them to index
@@ -366,6 +378,9 @@ public class Private extends HttpServlet {
                 }
                 break;
             }
+            //</editor-fold>
+
+            //<editor-fold desc="Edit Patient Appts">
             case "editPatientAppointment": {
                 request.setAttribute("user", user);
                 url = "/EditPatientAppointment.jsp";
@@ -386,6 +401,10 @@ public class Private extends HttpServlet {
 
                 break;
             }
+
+            //</editor-fold>
+            
+            //<editor-fold desc="Submit Patient Appointment Edit">
             case "submitPatientApptEdit": {
                 Appointments appointment = new Appointments();
                 String apptDate = request.getParameter("apptDate");
@@ -411,6 +430,9 @@ public class Private extends HttpServlet {
                 url = "/UserAppointments.jsp";
                 break;
             }
+            //</editor-fold>
+
+            //<editor-fold desc="Create Patient Appointment">
             case "createUserAppointments": {
                 request.setAttribute("user", user);
                 if (user == null || user.equals("")) {
@@ -483,12 +505,15 @@ public class Private extends HttpServlet {
                         url = "/CreateAppointment.jsp";
                     }
                     break;
-
                 }
             }
-//</editor-fold>
-            
+            //</editor-fold>
+
+            case "": {
+
             }
+
+        }
         //regardless of what happens put the message in the request and forward
         // to url
 
