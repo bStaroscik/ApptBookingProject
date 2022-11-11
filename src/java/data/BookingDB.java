@@ -245,11 +245,11 @@ public class BookingDB {
                 String userLastName = rs.getString("userLastName");
                 String doctorFirstName = rs.getString("doctorFirstName");
                 String doctorLastName = rs.getString("doctorLastName");
-                String apptType = rs.getString("apptType");
+                int apptType = rs.getInt("apptTypeID");
                 String reasonForVisit = rs.getString("reasonForVisit");
                 String insuranceProvider = rs.getString("insuranceProvider");
                 String insurancePlanNum = rs.getString("insurancePlanNum");
-                String notes = rs.getString("notes");                
+                String notes = rs.getString("apptNotes");                
                 
                 appointment = new Appointments(apptID, apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum, notes);
                 
@@ -339,7 +339,7 @@ public class BookingDB {
             ps.setString(5, appointment.getUserLastName());
             ps.setString(6, appointment.getDoctorFirstName());
             ps.setString(7, appointment.getDoctorLastName());
-            ps.setString(8, appointment.getApptType());
+            ps.setInt(8, appointment.getApptType());
             ps.setString(9, appointment.getReasonForVisit());
             ps.setString(10, appointment.getInsuranceProvider());
             ps.setString(10, appointment.getInsurancePlanNum());
@@ -383,7 +383,7 @@ public class BookingDB {
                 String userLastName = rs.getString("userLastName");
                 String doctorFirstName = rs.getString("doctorFirstName");
                 String doctorLastName = rs.getString("doctorLastName");
-                String apptType = rs.getString("apptType");
+                int apptType = rs.getInt("apptType");
                 String reasonForVisit = rs.getString("reasonForVisit");
                 String insuranceProvider = rs.getString("insuranceProvider");
                 String insurancePlanNum = rs.getString("insurancePlanNum");
@@ -416,7 +416,7 @@ public class BookingDB {
         PreparedStatement ps = null;
 
         String query
-                = "UPDATE BAHRdata.appointmentInfo SET apptDate = ?, apptTime = ?, userID = ?, userFirstName = ?, userLastName = ?, doctorFirstName = ?, doctorLastName = ?, apptType = ?, reasonForVisit = ?, insuranceProvider = ?, insurancePlanNum = ? "
+                = "UPDATE BAHRdata.appointmentInfo SET apptDate = ?, apptTime = ? "
                 + "WHERE apptID = ?";
         
         try {
@@ -424,15 +424,6 @@ public class BookingDB {
             ps.setInt(1, appointment.getApptID());
             ps.setDate(2, Date.valueOf(appointment.getApptDate()));
             ps.setTime(3, Time.valueOf(appointment.getApptTime()));
-            ps.setInt(4, appointment.getUserID());
-            ps.setString(5, appointment.getUserFirstName());
-            ps.setString(6, appointment.getUserLastName());
-            ps.setString(7, appointment.getDoctorFirstName());
-            ps.setString(8, appointment.getDoctorLastName());
-            ps.setString(9, appointment.getApptType());
-            ps.setString(10, appointment.getReasonForVisit());
-            ps.setString(11, appointment.getInsuranceProvider());
-            ps.setString(12, appointment.getInsurancePlanNum());
             
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -525,7 +516,7 @@ public class BookingDB {
                 String userLastName = rs.getString("userLastName");
                 String doctorFirstName = rs.getString("doctorFirstName");
                 String doctorLastName = rs.getString("doctorLastName");
-                String apptType = rs.getString("apptType");
+                int apptType = rs.getInt("apptType");
                 String reasonForVisit = rs.getString("reasonForVisit");
                 String insuranceProvider = rs.getString("insuranceProvider");
                 String insurancePlanNum = rs.getString("insurancePlanNum");

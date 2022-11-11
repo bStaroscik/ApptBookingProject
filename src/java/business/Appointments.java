@@ -20,14 +20,14 @@ public class Appointments {
     private String userLastName;
     private String doctorFirstName;
     private String doctorLastName;
-    private String apptType;
+    private int apptType;
     private String reasonForVisit;
     private String insuranceProvider;
     private String insurancePlanNum;
     private String notes;
 
 
-    public Appointments(int apptID, LocalDate apptDate, LocalTime apptTime, int userID, String userFirstName, String userLastName, String doctorFirstName, String doctorLastName, String apptType, String reasonForVisit, String insuranceProvider, String insurancePlanNum, String notes) {
+    public Appointments(int apptID, LocalDate apptDate, LocalTime apptTime, int userID, String userFirstName, String userLastName, String doctorFirstName, String doctorLastName, int apptType, String reasonForVisit, String insuranceProvider, String insurancePlanNum, String notes) {
         this.apptID = apptID;
         this.apptDate = apptDate;
         this.apptTime = apptTime;
@@ -110,11 +110,11 @@ public class Appointments {
         this.doctorLastName = doctorLastName;
     }
 
-    public String getApptType() {
+    public int getApptType() {
         return apptType;
     }
 
-    public void setApptType(String apptType) {
+    public void setApptType(int apptType) {
         this.apptType = apptType;
     }
 

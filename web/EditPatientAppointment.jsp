@@ -1,27 +1,42 @@
 <%-- 
-    Document   : EditUserProfile
-    Created on : Oct 26, 2022, 6:51:39 PM
-    Author     : Ashbb
+    Document   : editPost
+    Created on : Apr 19, 2022, 9:22:26 PM
+    Author     : Jeremy
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
-    <div class="wrapper">
-        <head>
-            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <title>Profile Page</title>
-            <link rel="stylesheet" href="styles/main.css" type="text/css"/>
-        </head>
-        <jsp:include page="nav.jsp" /> 
-        <body>
-            <h1>Profile Page</h1>
-            <h2><c:out value='${errorMessage}'/></h2>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Edit Patient Appointment</title>
+        <link rel="stylesheet" href="styles/main.css" type="text/css"/>
+    </head>
+    <body>
+        <div class="wrapper">
+            <jsp:include page="nav.jsp" />
+            <h1>Edit Appointment</h1>
             <h2>${message}</h2>
-            
-            <p>Username: <c:out value="${user.email}" /></p><!-- Display username -->
-                <form action="private" method="post">
+            <form action="Private" method="post">
+                <input type="hidden" name="idValue" value="${idValue}"> 
+                <label>Appointment Date</label>
+                <input type="text" name="apptDate" value="${apptDate}" />
+                <br>
+
+                <label>Appointment Time</label>
+                <input type="text" name="apptTime" value="${apptTime}" />
+                <br>
+
+                <!--<div style="text-align: center;"><textarea style="text-align: center; width: 75%" type="text" name="postText" rows='10'cols='100' autofocus='true' maxlength='1024'>${noteText}</textarea></div>-->
+                <br>
+                <input type="hidden" name="action" value="submitPatientApptEdit">
+                <input type="submit" value="Submit Edit">
+            </form>
+        </div>
+    </body>
+</html>
+
+<!--<form action="private" method="post">
                     <label>First Name</label>
                     <input type="text" name="firstName" value="<c:out value="${users.firstName}" />">
                     <br>
@@ -63,6 +78,4 @@
 
                     <input type="hidden" name="action" value="logout"> 
                     <td><input type="submit" value="Logout"></td>
-                </form>
-        </body>
-</html>
+                </form>-->

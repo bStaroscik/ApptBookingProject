@@ -17,40 +17,45 @@
         <jsp:include page="nav.jsp" /> 
         <body>
             <a href="Private?action=editProfile" style="font-size: 25px; color: black;"> Edit Your Profile </a>
+
             <h1>Current Scheduled Appointments</h1>
             <h2><c:out value='${errorMessage}'/></h2>
             <h2>${message}</h2>
             <div class="center">
+                
                 <table style="margin: auto">
                     <thead>
-                    <th colspan="8">Appointments</th>
+                    <th colspan="9">Appointments</th>
                     </thead>
                     <tr>
-                           <td class="tdFormat">Appt. Date</td>
-                           <td class="tdFormat">Appt. Time</td>
-                           <td class="tdFormat">Appt. Type</td>
-                           <td class="tdFormat">Patient Name</td>
-                           <td class="tdFormat">Assigned Doctor</td>
-                           <td class="tdFormat">Reason for visit</td>
-                           <td class="tdFormat">Notes</td>
-                           <td class="tdFormat">Edit</td>
+                        <th>Appt Date</th>
+                        <th>Appt Time</th>
+                        <th>Patient Name</th>
+                        <th>Doctor Name</th>
+                        <th>Appt Type</th>
+                        <th>Reason for Visit</th>
+                        <th>Insurance Provider</th>
+                        <th>Insurance Plan</th>
+                        <th>Edit Appt</th>
                     </tr>
-                    <c:forEach var="Appointment" items="${Appointments}">
+                    <c:forEach var="item" items="${appointments}" varStatus="status">
                         <tr>
-                           <td><c:out value='${Appointment.value.apptDate}'/></td>
-                           <td><c:out value='${Appointment.value.apptTime}'/></td>
-                           <td><c:out value='${Appointment.value.apptType}'/></td>
-                           <td><c:out value='${Appointment.value.userFirstName + " " + Appointments.value.userLastName}'/></td>
-                           <td><c:out value='${Appointment.value.doctorFirstName + " " + Appointments.value.doctorLastName}'/></td>
-                           <td><c:out value='${Appointment.value.reasonForVisit}'/></td>
-                           <td><c:out value='${Appointment.value.notes}'/></td>
-<!--                           <form action="Private" method="post">
-                            <input type="hidden" name="action" value="editNotes"> 
-                            <input type="hidden" name="idValue" value="<c:out value='${Appointment.value.apptID}'/>">
-                            <td><input type="submit" value="Edit Notes"></td>
-                           </form>-->
+                            <td><c:out value="${item.value.apptDate}" /></td>
+                            <td><c:out value="${item.value.apptTime}" /></td>
+                            <td><c:out value="${item.value.userFirstName}" /> <c:out value="${item.value.userLastName}" /></td>
+                            <td><c:out value="${item.value.doctorFirstName}" /> <c:out value="${item.value.doctorLastName}" /></td>
+                            <td><c:out value="${item.value.apptType}" /></td>
+                            <td><c:out value="${item.value.reasonForVisit}" /></td>
+                            <td><c:out value="${item.value.insuranceProvider}" /></td>
+                            <td><c:out value="${item.value.insurancePlanNum}" /></td>
+                        <form action="Private" method="post">
+                            <input type="hidden" name="action" value="editPatientAppointment"> 
+                            <input type="hidden" name="idValue" value="<c:out value='${item.key}'/>">
+                            <td><input type="submit" value="Edit Appt"></td>
+                        </form>
                         </tr>
                     </c:forEach>
+
                 </table>
             </div>
         </body>
