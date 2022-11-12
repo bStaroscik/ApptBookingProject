@@ -46,7 +46,7 @@ public class Public extends HttpServlet {
         if (action == null) {
             action = "none";
         }
-
+        
         if (action.equals("register")) {
             String firstName = request.getParameter("firstName");
             String lastName = request.getParameter("lastName");

@@ -4,6 +4,7 @@
  */
 package business;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -11,7 +12,7 @@ import java.time.LocalTime;
  *
  * @author Ashbb
  */
-public class Appointments {
+public class Appointments  implements Serializable {
     private int apptID;
     private LocalDate apptDate;
     private LocalTime apptTime;

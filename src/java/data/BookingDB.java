@@ -4,6 +4,7 @@
  */
 package data;
 
+import business.AppointmentTypes;
 import business.Appointments;
 import business.Users;
 import java.sql.*;
@@ -253,7 +254,7 @@ public class BookingDB {
                 
                 appointment = new Appointments(apptID, apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum, notes);
                 
-                appointments.put(userID, appointment);
+                appointments.put(apptID, appointment);
             }
             return appointments;
         } catch (SQLException e) {
@@ -272,7 +273,7 @@ public class BookingDB {
         }
     }
     
-    public static Users getAllDoctors(String roleName) throws SQLException {
+    public static LinkedHashMap<Integer, Users> getAllDoctors(String userRole) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
@@ -284,13 +285,13 @@ public class BookingDB {
         
         try {
             ps = connection.prepareStatement(query);
-            ps.setString(1, roleName);
-            
+            ps.setString(1, userRole);
             rs = ps.executeQuery();
             
-            Users user = null;
-            
-            if(rs.next()) {
+            Users doctor = null;
+            LinkedHashMap<Integer, Users> doctors = new LinkedHashMap();
+
+            while (rs.next()) {
                 int userID = rs.getInt("userID");
                 String firstName = rs.getString("firstName");
                 String lastName = rs.getString("lastName");
@@ -301,24 +302,28 @@ public class BookingDB {
                 String phoneNumber = rs.getString("phoneNumber");
                 String email = rs.getString("email");
                 String role = rs.getString("role");
-                String password = rs.getString("password");
-                user = new Users(userID, firstName, lastName, address, city, state, zipCode, phoneNumber, email, role, password);   
-            }
-            return user;
+                String password = rs.getString("password");               
                 
+                doctor = new Users(userID, firstName, lastName, address, city, state, zipCode, phoneNumber, email, role, password);
+                
+                doctors.put(userID, doctor);
+            }
+            return doctors;
         } catch (SQLException e) {
-            LOG.log(Level.SEVERE, "*** insert sql", e);
+            LOG.log(Level.SEVERE, "*** select all sql", e);
             throw e;
             
         } finally {
             try {
+                rs.close();
                 ps.close();
                 pool.freeConnection(connection);
             } catch (Exception e) {
-                LOG.log(Level.SEVERE, "*** insert null pointer??", e);
+                LOG.log(Level.SEVERE, "*** select all null pointer??", e);
                 throw e;
-            } 
-        }   
+            }
+        }
+  
     }
     
     public static void insertNewAppointment(Appointments appointment) throws SQLException {
@@ -327,7 +332,7 @@ public class BookingDB {
         PreparedStatement ps = null;
 
         String query
-                = "INSERT INTO BAHRdata.appointmentinfo (apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum) "
+                = "INSERT INTO BAHRdata.appointmentinfo (apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptTypeID, reasonForVisit, insuranceProvider, insurancePlanNum) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
@@ -342,7 +347,7 @@ public class BookingDB {
             ps.setInt(8, appointment.getApptType());
             ps.setString(9, appointment.getReasonForVisit());
             ps.setString(10, appointment.getInsuranceProvider());
-            ps.setString(10, appointment.getInsurancePlanNum());
+            ps.setString(11, appointment.getInsurancePlanNum());
             
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -530,6 +535,46 @@ public class BookingDB {
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "*** select all sql", e);
             throw e;
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** select all null pointer??", e);
+                throw e;
+            }
+        }
+    }
+    
+    public static LinkedHashMap<Integer, AppointmentTypes> getAllApptTypes() throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query = "SELECT * FROM BAHRdata.appointmenttype";
+        try {
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            
+            AppointmentTypes appointmentType = null;
+            LinkedHashMap<Integer, AppointmentTypes> appointmentTypes = new LinkedHashMap();
+
+            while (rs.next()) {
+                int typeID = rs.getInt("typeID");
+                String description = rs.getString("description");
+                int cost = rs.getInt("cost");               
+                
+                appointmentType = new AppointmentTypes(typeID, description, cost);
+                
+                appointmentTypes.put(typeID, appointmentType);
+            }
+            return appointmentTypes;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** select all sql", e);
+            throw e;
+            
         } finally {
             try {
                 rs.close();

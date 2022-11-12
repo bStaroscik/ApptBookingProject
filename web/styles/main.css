@@ -101,19 +101,20 @@ h2 {
 label {
     float: left;
     padding-left: 10em;
-    width: 6em;
+    width: 12em;
     margin-bottom: 0.5em;
     font-weight: bold;
+    text-align: right;
 }
-input[type="text"] {
+input[type="text"], input[type="password"], input[type="date"],input[type="time"] {
     width: 15em;
-    margin-left: 4.5em;
+    margin-left: 4em;
     margin-bottom: 0.5em;
 }
 
-input[type="date"] {
-    width: 15.25em;
-    margin-left: 4.5em;
+select, option {
+    width: 15em;
+    margin-left: 4em;
     margin-bottom: 0.5em;
 }
 

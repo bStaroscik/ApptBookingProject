@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import business.AppointmentTypes;
 import business.Appointments;
 import business.Users;
 import data.BookingDB;
@@ -149,74 +150,7 @@ public class Private extends HttpServlet {
                 break;
             }
 
-            //<editor-fold desc="Get Doctor Appointments">
-            case "getDoctorsAppointments": {
-                if (user == null || user.equals("")) {
-                    //INVALID LOGIN - set generic error message and take them to index
-                    message = "Your password is incorrect";
-                    url = "/index.jsp";
-                } else {
-                    //Gets current doctors appointments from BookingDB and sets them in a variable sent to the page
-                    url = "/DoctorsAppointments.jsp";
-                    LinkedHashMap<Integer, Appointments> Appointments = new LinkedHashMap();
-                    try {
-                        Appointments = BookingDB.selectAllAppointments();
-                        request.setAttribute("Appointments", Appointments);
-                    } catch (Exception e) {
-                        LOG.log(Level.SEVERE, null, e);
-                    }
-                }
-                break;
-            }
-            //</editor-fold>
-
-            //<editor-fold desc="Edit Doctor Notes">
-            case "editNotes": {
-                url = "/editNotes.jsp";
-
-                LinkedHashMap<Integer, Appointments> notes = new LinkedHashMap();
-                try {
-                    notes = BookingDB.getAllNotes();
-
-                } catch (Exception e) {
-                }
-                request.setAttribute("notes", notes);
-                String idValue = request.getParameter("idValue");
-
-                Appointments currentNotes = notes.get(Integer.valueOf(idValue));
-                request.setAttribute("idValue", idValue);
-                request.setAttribute("noteText", currentNotes.getNotes());
-
-                break;
-            }
-            //</editor-fold>
-
-            //<editor-fold desc="Submit Doctor Notes">
-            case "submitNotesEdit": {
-                LinkedHashMap<Integer, Appointments> notes = new LinkedHashMap();
-                try {
-                    notes = BookingDB.getAllNotes();
-                } catch (Exception e) {
-                }
-                String idValue = (String) request.getParameter("idValue");
-                String noteText = (String) request.getParameter("noteText");
-
-                Appointments newNotes = notes.get(Integer.valueOf(idValue));
-                try {
-                    BookingDB.updateNotes(newNotes.getApptID(), noteText);
-                } catch (Exception e) {
-                }
-                try {
-                    notes = BookingDB.selectAllAppointments();
-
-                } catch (Exception e) {
-                }
-                request.setAttribute("Appointments", notes);
-                url = "/DoctorsAppointments.jsp";
-                break;
-            }
-            //</editor-fold>
-
+            //on create appt page, add drop down for doctors and appt types
             //<editor-fold desc="Edit Profile Redirect">
             case "editProfile": { //for any user
                 request.setAttribute("user", user);
@@ -358,12 +292,180 @@ public class Private extends HttpServlet {
             }
             //</editor-fold>
 
+            //<editor-fold desc="Get Doctor Appointments">
+            case "getDoctorsAppointments": {
+                if (user == null || user.equals("") || !"doctor".equals(user.getRole())) {
+                    //INVALID LOGIN - set generic error message and take them to index
+                    message = "Your can't visit this page or have an invalid login";
+                    url = "/Restricted.jsp";
+                } else {
+                    //Gets current doctors appointments from BookingDB and sets them in a variable sent to the page
+                    url = "/DoctorsAppointments.jsp";
+                    LinkedHashMap<Integer, Appointments> Appointments = new LinkedHashMap();
+                    try {
+                        Appointments = BookingDB.selectAllAppointments();
+                        request.setAttribute("Appointments", Appointments);
+                    } catch (Exception e) {
+                        LOG.log(Level.SEVERE, null, e);
+                    }
+                }
+                break;
+            }
+            //</editor-fold>
+
+            //<editor-fold desc="Edit Doctor Notes">
+            case "editNotes": {
+                url = "/editNotes.jsp";
+
+                LinkedHashMap<Integer, Appointments> notes = new LinkedHashMap();
+                try {
+                    notes = BookingDB.getAllNotes();
+
+                } catch (Exception e) {
+                }
+                request.setAttribute("notes", notes);
+                String idValue = request.getParameter("idValue");
+
+                Appointments currentNotes = notes.get(Integer.valueOf(idValue));
+                request.setAttribute("idValue", idValue);
+                request.setAttribute("noteText", currentNotes.getNotes());
+
+                break;
+            }
+            //</editor-fold>
+
+            //<editor-fold desc="Submit Doctor Notes">
+            case "submitNotesEdit": {
+                LinkedHashMap<Integer, Appointments> notes = new LinkedHashMap();
+                try {
+                    notes = BookingDB.getAllNotes();
+                } catch (Exception e) {
+                }
+                String idValue = (String) request.getParameter("idValue");
+                String noteText = (String) request.getParameter("noteText");
+
+                Appointments newNotes = notes.get(Integer.valueOf(idValue));
+                try {
+                    BookingDB.updateNotes(newNotes.getApptID(), noteText);
+                } catch (Exception e) {
+                }
+                try {
+                    notes = BookingDB.selectAllAppointments();
+
+                } catch (Exception e) {
+                }
+                request.setAttribute("Appointments", notes);
+                url = "/DoctorsAppointments.jsp";
+                break;
+            }
+            //</editor-fold>
+
+            //<editor-fold desc="Create Patient Appointment">
+            case "createUserAppointments": {
+                request.setAttribute("user", user);
+                url = "/CreateAppointment.jsp";
+
+                LinkedHashMap<Integer, AppointmentTypes> appointmentTypes = new LinkedHashMap();
+                try {
+                    appointmentTypes = BookingDB.getAllApptTypes();
+
+                } catch (Exception e) {
+                    LOG.log(Level.SEVERE, null, e);
+                }
+                request.setAttribute("appointmentType", appointmentTypes);
+
+//                Users doctors = new Users();
+                LinkedHashMap<Integer, Users> doctors = new LinkedHashMap();
+                try {
+                    doctors = BookingDB.getAllDoctors("doctor");
+
+                } catch (Exception e) {
+                    LOG.log(Level.SEVERE, null, e);
+                }
+                request.setAttribute("doctors", doctors);
+
+                break;
+            }
+            //</editor-fold>
+
+            //<editor-fold desc="Submit Create Appointment">
+            case "submitCreateAppointment": {
+                String apptDate = request.getParameter("apptDate");
+                String apptTime = request.getParameter("apptTime");
+                String userID = request.getParameter("userID");
+                String userFirstName = request.getParameter("firstName");
+                String userLastName = request.getParameter("lastName");
+                String doctorName = request.getParameter("doctor");
+//                String doctorLastName = request.getParameter("doctorLast");
+                String apptType = request.getParameter("apptType");
+                String reasonForVisit = request.getParameter("reasonForVisit");
+                String insuranceProvider = request.getParameter("insuranceProvider");
+                String insurancePlanNum = request.getParameter("insurancePlanNum");
+                message = "";
+
+                Appointments appointment = new Appointments();
+                appointment.setApptDate(LocalDate.parse(apptDate));
+                request.setAttribute("apptDate", apptDate);
+
+                appointment.setApptTime(LocalTime.parse(apptTime));
+                request.setAttribute("apptTime", apptTime);
+
+                appointment.setUserID(Integer.parseInt(userID));
+
+                appointment.setUserFirstName(userFirstName);
+                request.setAttribute("firstName", userFirstName);
+
+                appointment.setUserLastName(userLastName);
+                request.setAttribute("lastName", userLastName);
+                
+                String[] doctorSplitName = doctorName.split(" ");
+
+                appointment.setDoctorFirstName(doctorSplitName[0]);
+                request.setAttribute("doctorFirst", doctorSplitName[0]);
+
+                appointment.setDoctorLastName(doctorSplitName[1]);
+                request.setAttribute("doctorLast", doctorSplitName[1]);
+
+                //add code here to loop through appt types and put them in a dropdown
+                appointment.setApptType(Integer.parseInt(apptType));
+                request.setAttribute("apptID", apptType);
+
+                appointment.setReasonForVisit(reasonForVisit);
+                request.setAttribute("reasonForVisit", reasonForVisit);
+
+                appointment.setInsuranceProvider(insuranceProvider);
+                request.setAttribute("insuranceProvider", insuranceProvider);
+
+                appointment.setInsurancePlanNum(insurancePlanNum);
+                request.setAttribute("insurancePlanNum", insurancePlanNum);
+
+                if ("".equals(message)) {
+                    try {
+                        BookingDB.insertNewAppointment(appointment);
+                        message = "Appointment Created!";
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    request.setAttribute("message", message);
+                    request.setAttribute("user", user);
+                    request.setAttribute("appointment", appointment);
+                    url = "/UserAppointments.jsp";
+                } else {
+                    request.setAttribute("message", message);
+                    request.setAttribute("user", user);
+                    url = "/CreateAppointment.jsp";
+                }
+                break;
+            }
+            //</editor-fold>
+
             //<editor-fold desc="Get Patient Appts"> 
             case "getUserAppointments": {
-                if (user == null || user.equals("")) {
+                if (user == null || "".equals(user) || !"patient".equals(user.getRole())) {
                     //INVALID LOGIN - set generic error message and take them to index
-                    message = "Your password is incorrect";
-                    url = "/index.jsp";
+                    message = "Your can't visit this page or have an invalid login";
+                    url = "/Restricted.jsp";
                 } else {
                     //Gets current user appointments from BookingDB and sets them in a variable sent to the page
                     url = "/UserAppointments.jsp"; //this is the page all patients first come to when they log in
@@ -401,19 +503,32 @@ public class Private extends HttpServlet {
 
                 break;
             }
-
             //</editor-fold>
-            
+
             //<editor-fold desc="Submit Patient Appointment Edit">
             case "submitPatientApptEdit": {
                 Appointments appointment = new Appointments();
                 String apptDate = request.getParameter("apptDate");
                 String apptTime = request.getParameter("apptTime");
                 String apptID = request.getParameter("idValue");
+//                String apptDate = request.getParameter("apptDate");
+//                    String apptTime = request.getParameter("apptTime");
+//                    String userID = request.getParameter("userID");
+//                    String userFirstName = request.getParameter("firstName");
+//                    String userLastName = request.getParameter("lastName");
+//                    String doctorFirstName = request.getParameter("doctorFirst");
+//                    String doctorLastName = request.getParameter("doctorLast");
+//                    String apptTypeID = request.getParameter("apptID");
+//                    String reasonForVisit = request.getParameter("reasonForVisit");
+//                    String insuranceProvider = request.getParameter("insuranceProvider");
+//                    String insurancePlanNum = request.getParameter("insurancePlanNum");
                 message = "";
 
-                appointment.setApptDate(LocalDate.parse(apptDate));
-                appointment.setApptTime(LocalTime.parse(apptTime));
+                LocalDate dateApptDate = LocalDate.parse(apptDate);
+                LocalTime timeApptTime = LocalTime.parse(apptTime);
+
+                appointment.setApptDate(dateApptDate);
+                appointment.setApptTime(timeApptTime);
                 appointment.setApptID(Integer.parseInt(apptID));
 
                 try {
@@ -432,87 +547,21 @@ public class Private extends HttpServlet {
             }
             //</editor-fold>
 
-            //<editor-fold desc="Create Patient Appointment">
-            case "createUserAppointments": {
-                request.setAttribute("user", user);
-                if (user == null || user.equals("")) {
-                    //INVALID LOGIN - set generic error message and take them to index
-                    message = "Your are not logged in";
-                    url = "/index.jsp";
-                } else {
-                    url = "/CreateAppointment.jsp";
-
-                    String apptDate = request.getParameter("apptDate");
-                    String apptTime = request.getParameter("apptTime");
-                    String userID = request.getParameter("userID");
-                    String userFirstName = request.getParameter("firstName");
-                    String userLastName = request.getParameter("lastName");
-                    String doctorFirstName = request.getParameter("doctorFirst");
-                    String doctorLastName = request.getParameter("doctorLast");
-                    String apptTypeID = request.getParameter("apptID");
-                    String reasonForVisit = request.getParameter("reasonForVisit");
-                    String insuranceProvider = request.getParameter("insuranceProvider");
-                    String insurancePlanNum = request.getParameter("insurancePlanNum");
-                    message = "";
-
-                    Appointments appointment = new Appointments();
-                    appointment.setApptDate(LocalDate.parse(apptDate));
-                    request.setAttribute("apptDate", apptDate);
-
-                    appointment.setApptTime(LocalTime.parse(apptTime));
-                    request.setAttribute("apptTime", apptDate);
-
-                    appointment.setUserID(Integer.parseInt(userID));
-
-                    appointment.setUserFirstName(userFirstName);
-                    request.setAttribute("firstName", apptDate);
-
-                    appointment.setUserLastName(userLastName);
-                    request.setAttribute("lastName", apptDate);
-
-                    appointment.setDoctorFirstName(doctorFirstName);
-                    request.setAttribute("doctorFirst", apptDate);
-
-                    appointment.setDoctorLastName(doctorLastName);
-                    request.setAttribute("doctorLast", apptDate);
-
-                    appointment.setApptID(Integer.parseInt(apptTypeID));
-                    request.setAttribute("apptID", apptDate);
-
-                    appointment.setReasonForVisit(reasonForVisit);
-                    request.setAttribute("reasonForVisit", apptDate);
-
-                    appointment.setInsuranceProvider(insuranceProvider);
-                    request.setAttribute("insuranceProvider", apptDate);
-
-                    appointment.setInsurancePlanNum(insurancePlanNum);
-                    request.setAttribute("insurancePlanNum", apptDate);
-
-                    if ("".equals(message)) {
-                        try {
-                            BookingDB.insertNewAppointment(appointment);
-                            message = "Appointment Created!";
-                        } catch (SQLException ex) {
-                            Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-
-                        request.setAttribute("message", message);
-                        request.setAttribute("user", user);
-                        request.setAttribute("appointment", appointment);
-                    } else {
-                        request.setAttribute("message", message);
-                        request.setAttribute("user", user);
-                        url = "/CreateAppointment.jsp";
-                    }
-                    break;
-                }
-            }
-            //</editor-fold>
-
-            case "": {
-
-            }
-
+//            //<editor-fold desc="DESCRUPTION HERE">
+//            case "": {
+//
+//            }
+//            //</editor-fold>
+//            //<editor-fold desc="DESCRUPTION HERE">
+//            case "": {
+//
+//            }
+//            //</editor-fold>
+//            //<editor-fold desc="DESCRUPTION HERE">
+//            case "": {
+//
+//            }
+//            //</editor-fold>
         }
         //regardless of what happens put the message in the request and forward
         // to url

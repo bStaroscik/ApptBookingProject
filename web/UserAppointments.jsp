@@ -22,6 +22,10 @@
             <h2><c:out value='${errorMessage}'/></h2>
             <h2>${message}</h2>
             <div class="center">
+                <p>Name: <c:out value="${user.firstName}" /> <c:out value="${user.lastName}" /></p>
+                <p>Address: <c:out value="${user.address}" /></p>
+                <p>City, State, Zip Code: <c:out value="${user.city}" /> <c:out value="${user.state}" />, <c:out value="${user.zipCode}" /></p>
+                <p>Username: <c:out value="${user.email}" /></p>
                 
                 <table style="margin: auto">
                     <thead>
@@ -30,7 +34,7 @@
                     <tr>
                         <th>Appt Date</th>
                         <th>Appt Time</th>
-                        <th>Patient Name</th>
+<!--                        <th>Patient Name</th>-->
                         <th>Doctor Name</th>
                         <th>Appt Type</th>
                         <th>Reason for Visit</th>
@@ -40,9 +44,10 @@
                     </tr>
                     <c:forEach var="item" items="${appointments}" varStatus="status">
                         <tr>
+                            <input type="hidden" name="apptID" value="<c:out value='${item.value.apptID}'/>">
                             <td><c:out value="${item.value.apptDate}" /></td>
                             <td><c:out value="${item.value.apptTime}" /></td>
-                            <td><c:out value="${item.value.userFirstName}" /> <c:out value="${item.value.userLastName}" /></td>
+<!--                            <td><c:out value="${item.value.userFirstName}" /> <c:out value="${item.value.userLastName}" /></td>-->
                             <td><c:out value="${item.value.doctorFirstName}" /> <c:out value="${item.value.doctorLastName}" /></td>
                             <td><c:out value="${item.value.apptType}" /></td>
                             <td><c:out value="${item.value.reasonForVisit}" /></td>
@@ -50,7 +55,7 @@
                             <td><c:out value="${item.value.insurancePlanNum}" /></td>
                         <form action="Private" method="post">
                             <input type="hidden" name="action" value="editPatientAppointment"> 
-                            <input type="hidden" name="idValue" value="<c:out value='${item.key}'/>">
+                            <input type="hidden" name="idValue" value="<c:out value='${item.value.apptID}'/>">
                             <td><input type="submit" value="Edit Appt"></td>
                         </form>
                         </tr>

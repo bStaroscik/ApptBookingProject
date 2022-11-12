@@ -50,8 +50,7 @@
 
 <nav style="text-align: center;">
     <a href="index.jsp"> Login </a>| <!--    target-->
-    <a href="register.jsp"> Registration </a>| <!--    index-->
-    <a href="Private?action=getUserAppointments"> Home </a>| 
+    <a href="register.jsp"> Registration </a>| <!--    index--> 
     <a href="Private?action=getDoctorsAppointments"> Doctor Appointments </a>|
     <a href="Private?action=getUserAppointments"> User Appointments </a>|
     <a href="Private?action=createUserAppointments"> Create Appointment </a>|

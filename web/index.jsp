@@ -9,22 +9,15 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Home</title>
-        
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Welcome!</title>
         <link rel="stylesheet" href="styles/main.css" type="text/css"/>
-
     </head>
-       
     <body>
         <div class="wrapper">
-            <h1>Appointment Booking Login!</h1>
-
-            <jsp:include page="nav.jsp" /> 
-
-            <h3><c:out value="${message}" /></h3>
-            <div>
+            <jsp:include page="nav.jsp" />
+            <h1>Login</h1>
+            <h2>${message}</h2>
                 <form action="Private" method="post">
                     <input type="hidden" name="action" value="attemptLogin">
 
@@ -33,7 +26,7 @@
                     <br>
 
                     <label>password</label>
-                    <input type="text" name="password" value="<c:out value="" />">
+                    <input type="password" name="password" value="<c:out value="" />">
                     <br>
 
                     <input type="submit" value="submit">
