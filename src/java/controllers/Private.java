@@ -105,6 +105,14 @@ public class Private extends HttpServlet {
                                 break;
                             case "patient":
                                 url = "/UserAppointments.jsp";
+                                LinkedHashMap<Integer, Appointments> appointments = new LinkedHashMap();
+                                try {
+                                    appointments = BookingDB.selectLoggedInUserAppointments(user.getUserID());
+
+                                } catch (Exception e) {
+                                    LOG.log(Level.SEVERE, null, e);
+                                }
+                                request.setAttribute("appointments", appointments);
                                 //how to get to the appt page with the appts on it?  currently only goes to right page if using menu button
                                 break;
                             case "admin":
@@ -417,7 +425,7 @@ public class Private extends HttpServlet {
 
                 appointment.setUserLastName(userLastName);
                 request.setAttribute("lastName", userLastName);
-                
+
                 String[] doctorSplitName = doctorName.split(" ");
 
                 appointment.setDoctorFirstName(doctorSplitName[0]);
@@ -449,8 +457,16 @@ public class Private extends HttpServlet {
 
                     request.setAttribute("message", message);
                     request.setAttribute("user", user);
-                    request.setAttribute("appointment", appointment);
+//                    request.setAttribute("appointment", appointment);
                     url = "/UserAppointments.jsp";
+                    LinkedHashMap<Integer, Appointments> appointments = new LinkedHashMap();
+                    try {
+                        appointments = BookingDB.selectLoggedInUserAppointments(user.getUserID());
+
+                    } catch (Exception e) {
+                        LOG.log(Level.SEVERE, null, e);
+                    }
+                    request.setAttribute("appointments", appointments);
                 } else {
                     request.setAttribute("message", message);
                     request.setAttribute("user", user);
@@ -543,6 +559,14 @@ public class Private extends HttpServlet {
                 request.setAttribute("message", message);
                 request.setAttribute("appointment", appointment);
                 url = "/UserAppointments.jsp";
+                LinkedHashMap<Integer, Appointments> appointments = new LinkedHashMap();
+                try {
+                    appointments = BookingDB.selectLoggedInUserAppointments(user.getUserID());
+
+                } catch (Exception e) {
+                    LOG.log(Level.SEVERE, null, e);
+                }
+                request.setAttribute("appointments", appointments);
                 break;
             }
             //</editor-fold>
