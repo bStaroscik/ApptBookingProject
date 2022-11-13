@@ -113,9 +113,10 @@ input[type="text"], input[type="password"], input[type="date"],input[type="time"
 }
 
 select, option {
-    width: 15em;
+    width: 15.5em;
     margin-left: 4em;
     margin-bottom: 0.5em;
+    height: 20px;
 }
 
 input[type="submit"]{
@@ -151,3 +152,5 @@ th{
 nav {
     text-align: center;
 }
+
+

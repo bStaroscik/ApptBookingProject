@@ -58,11 +58,7 @@
                     </c:forEach>
                 </select>
                 <br>
-
-<!--                <label>Doctor Last Name</label>
-                <input type="text" name="doctorLast" value="<c:out value="${appointment.doctorLastName}" />">
-                <br>-->
-
+                
                 <label>Appt Type ID</label>
                 <select name="apptType">
                     <c:forEach var="item" items="${appointmentType}">
