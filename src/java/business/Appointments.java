@@ -26,9 +26,10 @@ public class Appointments  implements Serializable {
     private String insuranceProvider;
     private String insurancePlanNum;
     private String notes;
+    private boolean confirmed;
 
 
-    public Appointments(int apptID, LocalDate apptDate, LocalTime apptTime, int userID, String userFirstName, String userLastName, String doctorFirstName, String doctorLastName, int apptType, String reasonForVisit, String insuranceProvider, String insurancePlanNum, String notes) {
+    public Appointments(int apptID, LocalDate apptDate, LocalTime apptTime, int userID, String userFirstName, String userLastName, String doctorFirstName, String doctorLastName, int apptType, String reasonForVisit, String insuranceProvider, String insurancePlanNum, String notes, boolean confirmed) {
         this.apptID = apptID;
         this.apptDate = apptDate;
         this.apptTime = apptTime;
@@ -42,6 +43,7 @@ public class Appointments  implements Serializable {
         this.insuranceProvider = insuranceProvider;
         this.insurancePlanNum = insurancePlanNum;
         this.notes = notes;
+        this.confirmed = confirmed;
     }
 
     public Appointments() {
@@ -150,4 +152,14 @@ public class Appointments  implements Serializable {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+
+    public boolean isConfirmed() {
+        return confirmed;
+    }
+
+    public void setConfirmed(boolean confirmed) {
+        this.confirmed = confirmed;
+    }
+    
+    
 }
