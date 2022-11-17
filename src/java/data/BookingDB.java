@@ -421,14 +421,14 @@ public class BookingDB {
         PreparedStatement ps = null;
 
         String query
-                = "UPDATE BAHRdata.appointmentInfo SET apptDate = ?, apptTime = ? "
+                = "UPDATE BAHRdata.appointmentinfo SET apptDate = ?, apptTime = ? "
                 + "WHERE apptID = ?";
         
         try {
             ps = connection.prepareStatement(query);
-            ps.setInt(1, appointment.getApptID());
-            ps.setDate(2, Date.valueOf(appointment.getApptDate()));
-            ps.setTime(3, Time.valueOf(appointment.getApptTime()));
+            ps.setDate(1, Date.valueOf(appointment.getApptDate()));
+            ps.setTime(2, Time.valueOf(appointment.getApptTime()));
+            ps.setInt(3, appointment.getApptID());
             
             ps.executeUpdate();
         } catch (SQLException e) {
