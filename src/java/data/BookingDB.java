@@ -547,6 +547,52 @@ public class BookingDB {
         }
     }
     
+    public static LinkedHashMap<Integer, Appointments> getTodaysAppointments() throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String query = "SELECT * FROM BAHRdata.Appointments WHERE apptDate=now()";
+        try {
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            Appointments appointment = null;
+            LinkedHashMap<Integer, Appointments> appointments = new LinkedHashMap();
+            while (rs.next()) {
+                int apptID = rs.getInt("apptID");
+                LocalDate apptDate = rs.getDate("apptDate").toLocalDate();
+                LocalTime apptTime = rs.getTime("apptTime").toLocalTime();
+                int userID = rs.getInt("userID");
+                String userFirstName = rs.getString("userFirstName");
+                String userLastName = rs.getString("userLastName");
+                String doctorFirstName = rs.getString("doctorFirstName");
+                String doctorLastName = rs.getString("doctorLastName");
+                int apptType = rs.getInt("apptType");
+                String reasonForVisit = rs.getString("reasonForVisit");
+                String insuranceProvider = rs.getString("insuranceProvider");
+                String insurancePlanNum = rs.getString("insurancePlanNum");
+                String notes = rs.getString("notes");
+                
+                appointment = new Appointments(apptID, apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum, notes);
+                
+                appointments.put(apptID, appointment);
+            }
+            return appointments;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** select all sql", e);
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** select all null pointer??", e);
+                throw e;
+            }
+        }
+    }
+    
     public static LinkedHashMap<Integer, AppointmentTypes> getAllApptTypes() throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
