@@ -250,9 +250,10 @@ public class BookingDB {
                 String reasonForVisit = rs.getString("reasonForVisit");
                 String insuranceProvider = rs.getString("insuranceProvider");
                 String insurancePlanNum = rs.getString("insurancePlanNum");
-                String notes = rs.getString("apptNotes");                
+                String notes = rs.getString("apptNotes"); 
+                Boolean confirmed = rs.getBoolean("confirmed");
                 
-                appointment = new Appointments(apptID, apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum, notes);
+                appointment = new Appointments(apptID, apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum, notes, confirmed);
                 
                 appointments.put(apptID, appointment);
             }
@@ -332,8 +333,8 @@ public class BookingDB {
         PreparedStatement ps = null;
 
         String query
-                = "INSERT INTO BAHRdata.appointmentinfo (apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptTypeID, reasonForVisit, insuranceProvider, insurancePlanNum) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                = "INSERT INTO BAHRdata.appointmentinfo (apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptTypeID, reasonForVisit, insuranceProvider, insurancePlanNum, confirmed) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
             ps = connection.prepareStatement(query);
@@ -348,6 +349,7 @@ public class BookingDB {
             ps.setString(9, appointment.getReasonForVisit());
             ps.setString(10, appointment.getInsuranceProvider());
             ps.setString(11, appointment.getInsurancePlanNum());
+            ps.setBoolean(12, appointment.isConfirmed());
             
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -392,9 +394,10 @@ public class BookingDB {
                 String reasonForVisit = rs.getString("reasonForVisit");
                 String insuranceProvider = rs.getString("insuranceProvider");
                 String insurancePlanNum = rs.getString("insurancePlanNum");
-                String notes = rs.getString("Apptnotes");                
+                String notes = rs.getString("notes");
+                Boolean confirmed = rs.getBoolean("confirmed");
                 
-                appointment = new Appointments(apptID, apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum, notes);
+                appointment = new Appointments(apptID, apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum, notes, confirmed);
                 
                 appointments.put(userID, appointment);
             }
@@ -452,7 +455,7 @@ public class BookingDB {
         PreparedStatement ps = null;
 
         String query
-                = "DELETE FROM BAHRdata.appointmentinfo"
+                = "DELETE FROM BAHRdata.appointmentinfo "
                 + "WHERE apptID = ?";
         
         try {
@@ -526,8 +529,9 @@ public class BookingDB {
                 String insuranceProvider = rs.getString("insuranceProvider");
                 String insurancePlanNum = rs.getString("insurancePlanNum");
                 String notes = rs.getString("notes");
+                Boolean confirmed = rs.getBoolean("confirmed");
                 
-                appointment = new Appointments(apptID, apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum, notes);
+                appointment = new Appointments(apptID, apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum, notes, confirmed);
                 
                 appointments.put(apptID, appointment);
             }

@@ -1,6 +1,6 @@
 /* The styles for the elements */
 
-.container {
+/*.container {
     width: 100%;
     height: 100px;
     background: darkseagreen;
@@ -138,7 +138,7 @@ br {
     clear: both;
 }
 
-/* The styles for the tables */
+ The styles for the tables 
 table {
     border: 1px solid black;
     border-collapse: collapse;
@@ -158,15 +158,14 @@ th{
 
 nav {
     text-align: center;
-    background-color:	#333;
-    font-weight:		bold;
-    text-align:		center;
-    padding:		14px 16px;
-    text-align: left;
-    font-weight: bold;
-    font-size: 25px;
-    color: white;
-    text-decoration: none;
+}*/
+
+.wrapper {
+    width: 1080px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: lightgray;
+    padding: 5px;
 }
 
 nav li	 	{
@@ -191,3 +190,90 @@ nav li	 	{
         color: orange;
     }
 
+h1 {
+    font-family: Arial, Veranda, sans-serif;
+    color: #77b5fe;
+    text-align: center;
+}
+
+h3 {
+    font-family: Arial, Veranda, sans-serif;
+    color: #0271f3;
+    text-align: center;
+}
+
+body {
+    font-family: Arial, Veranda, sans-serif;
+    color: black;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: gray;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: black;
+}
+
+input[type=text], [type=date], [type=password], [type=time],select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+    /*width: 25%;*/
+    background-color: #77b5fe;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #2b8cfd;
+}
+
+div {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    box-shadow: 10px 10px 10px grey;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+th, td {
+    text-align: center;
+    padding: .5em;
+}
+
+th{
+    color: white;
+    background-color: #77b5fe;
+    text-align: center;
+}
