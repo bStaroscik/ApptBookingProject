@@ -116,7 +116,7 @@ public class Private extends HttpServlet {
                                 //how to get to the appt page with the appts on it?  currently only goes to right page if using menu button
                                 break;
                             case "admin":
-                                url = "/AdminAllAppointments.jsp";
+                                url = "/ADMIN/Admin.jsp";
                                 break;
                             default:
                                 url = "/index.jsp";
@@ -284,7 +284,7 @@ public class Private extends HttpServlet {
                             url = "/UserAppointments.jsp";
                             break;
                         case "admin":
-                            url = "/AdminAllAppointments.jsp";
+                            url = "/ADMIN/Admin.jsp";
                             break;
                         default:
                             url = "/index.jsp";

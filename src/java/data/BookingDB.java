@@ -388,11 +388,11 @@ public class BookingDB {
                 String userLastName = rs.getString("userLastName");
                 String doctorFirstName = rs.getString("doctorFirstName");
                 String doctorLastName = rs.getString("doctorLastName");
-                int apptType = rs.getInt("apptType");
+                int apptType = rs.getInt("apptTypeId");
                 String reasonForVisit = rs.getString("reasonForVisit");
                 String insuranceProvider = rs.getString("insuranceProvider");
                 String insurancePlanNum = rs.getString("insurancePlanNum");
-                String notes = rs.getString("notes");                
+                String notes = rs.getString("Apptnotes");                
                 
                 appointment = new Appointments(apptID, apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum, notes);
                 
