@@ -26,6 +26,13 @@ nav ul li a:hover {
     background-color: forestgreen;
 }
 
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
 body {
     background-size: cover;
     background-attachment: fixed;
@@ -161,6 +168,27 @@ nav {
     padding: 5px;
 }
 
+nav li	 	{
+        display: inline;
+        text-align: center;
+        padding: 14px 16px;
+    }
+    
+    a    		{
+        text-decoration: none;
+    }
+
+    a:link 		{
+        color: khaki;
+    }
+
+    a:visited 	{
+        color: khaki;
+    }
+
+    a:hover 	{
+        color: orange;
+    }
 
 h1 {
     font-family: Arial, Veranda, sans-serif;
