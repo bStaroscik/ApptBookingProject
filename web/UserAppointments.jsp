@@ -8,7 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <div class="wrapper">
+    <!--<div class="wrapper">-->
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
             <title>User Appointments</title>
@@ -149,5 +149,5 @@
                     </table>
                 </div>-->
         </body>
-    </div>
+    <!--</div>-->
 </html>
