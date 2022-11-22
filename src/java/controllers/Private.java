@@ -102,18 +102,23 @@ public class Private extends HttpServlet {
                         switch (user.getRole()) {
                             case "doctor":
                                 url = "/DoctorsAppointments.jsp";
+                                LinkedHashMap<Integer, Appointments> Appointments = new LinkedHashMap();
+                                try {
+                                    Appointments = BookingDB.selectAllAppointments();
+                                    request.setAttribute("Appointments", Appointments);
+                                } catch (Exception e) {
+                                    LOG.log(Level.SEVERE, null, e);
+                                }
                                 break;
                             case "patient":
                                 url = "/UserAppointments.jsp";
                                 LinkedHashMap<Integer, Appointments> appointments = new LinkedHashMap();
                                 try {
                                     appointments = BookingDB.selectLoggedInUserAppointments(user.getUserID());
-
                                 } catch (Exception e) {
                                     LOG.log(Level.SEVERE, null, e);
                                 }
                                 request.setAttribute("appointments", appointments);
-                                //how to get to the appt page with the appts on it?  currently only goes to right page if using menu button
                                 break;
                             case "admin":
                                 url = "/ADMIN/Admin.jsp";
