@@ -52,13 +52,30 @@
                         <td><c:out value="${item.value.reasonForVisit}" /></td>
                         <td><c:out value="${item.value.insuranceProvider}" /></td>
                         <td><c:out value="${item.value.insurancePlanNum}" /></td>
+                        <td>
+                            <form>
+                                <input type="hidden" name="action" value="confirmAppt">
+                                <input type="submit" name ="confirm" value="Confirm">
+                            </form>
+                        </td>
+                        <td>
+                            <form>
+                                <input type="hidden" name="action" value="editAppt">
+                                <input type="submit" name ="edit" value="Edit">
+                            </form>
+                        </td>
+                        <td>
+                            <form>
+                                <input type="hidden" name="action" value="deleteAppt">
+                                <input type="submit" name="delete" value="Delete">
+                            </form>
+                        </td>
+                    
+                    
                     </tr>
                 </c:forEach>  
             </table>
-            <form>
-                <input type="hidden" name="action" value="logOut">
-                <input type="submit" name ="logOut" value="Log Out">
-            </form>
+            
         </div>
     </body>
 

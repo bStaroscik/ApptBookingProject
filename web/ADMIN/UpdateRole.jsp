@@ -33,22 +33,17 @@
                     <td><c:out value="${item.value.firstName}" /></td>
                     <td><c:out value="${item.value.lastName}" /></td>
                     <td><c:out value="${item.value.role}" /></td>
-                    <c:set var="authors" value="aaa,bbb,ccc,ddd" scope="application" />
-                    <c:out value="Before : ${param.Author}" />
-                <form action="TestSelect.action">
-                    <label>Role
-                        <select id="Author" name="Author">
-                            <c:forEach items="${fn:split(authors, ',')}" var="author">
-                                <option value="${author}" ${author== param.Author ? 'selected' : ''}>${author}</option>
+                    <td>
+                        <select name="role">
+                            <c:forEach items="${allRoles}" var="roles">
+                                <option value="${roles}" /><c:out value="${roles}" />
                             </c:forEach>
                         </select>
-                    </label>
-                    <button type="submit" value="submit" name="Submit"></button>
-                    <br>
-                    <c:out value="After : ${param.Author}" />
-                </form>
+                    </td>
                 </tr>
             </c:forEach>
         </table>
     </body>
 </html>
+
+

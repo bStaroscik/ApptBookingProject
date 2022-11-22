@@ -34,7 +34,7 @@
             <label>Patient</label>
             <select name="patient">
                 <c:forEach items="${patients}" var="patients">
-                    <option value="${patient.value.key} ${patients.value.firstName} ${patients.value.lastName}"><c:out value="${patient.value.key}" /><c:out value="${patient.value.firstName}" /><c:out value="${patient.value.lastName}" /></option>
+                    <option value="${patients.key} ${patients.value.firstName} ${patients.value.lastName}" /><c:out value="${patients.key} ${patients.value.firstName} ${patients.value.lastName}" /></option>
                 </c:forEach>
             </select>
             <br>
@@ -72,14 +72,4 @@
         </form>
         </div>
     </body>
-</html>
-
-                
-
-                
-
-                
-            </form>
-        </body>
-    </div>
 </html>

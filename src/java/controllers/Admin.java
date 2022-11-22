@@ -96,7 +96,7 @@ public class Admin extends HttpServlet {
             case "submitNewAppt": {
                 String apptDate = request.getParameter("apptDate");
                 String apptTime = request.getParameter("apptTime");
-                
+                String patientName = request.getParameter("patient");
                 //String userFirstName = request.getParameter("firstName");
                 //String userLastName = request.getParameter("lastName");
                 String doctorName = request.getParameter("doctor");
@@ -107,43 +107,36 @@ public class Admin extends HttpServlet {
                 String insurancePlanNum = request.getParameter("insurancePlanNum");
                 message = "";
                 
-                //Will need to clean up this code form here to break
-                //Create a new object type for Appointments?
+                
                 Appointments appointment = new Appointments();
                 appointment.setApptDate(LocalDate.parse(apptDate));
-                request.setAttribute("apptDate", apptDate);
+                
 
                 appointment.setApptTime(LocalTime.parse(apptTime));
-                request.setAttribute("apptTime", apptTime);
+                
+                
+                String[] patientSplitName = patientName.split(" ");
+                
+                appointment.setUserID(Integer.parseInt(patientSplitName[0]));
+                
 
-                //appointment.setUserID(Integer.parseInt(userID));
+                appointment.setUserFirstName(patientSplitName[1]);
 
-                //appointment.setUserFirstName(userFirstName);
-                //request.setAttribute("firstName", userFirstName);
-
-               // appointment.setUserLastName(userLastName);
-                //request.setAttribute("lastName", userLastName);
+                appointment.setUserLastName(patientSplitName[2]);
 
                 String[] doctorSplitName = doctorName.split(" ");
 
                 appointment.setDoctorFirstName(doctorSplitName[0]);
-                request.setAttribute("doctorFirst", doctorSplitName[0]);
 
                 appointment.setDoctorLastName(doctorSplitName[1]);
-                request.setAttribute("doctorLast", doctorSplitName[1]);
 
-                //add code here to loop through appt types and put them in a dropdown
                 appointment.setApptType(Integer.parseInt(apptType));
-                request.setAttribute("apptID", apptType);
 
                 appointment.setReasonForVisit(reasonForVisit);
-                request.setAttribute("reasonForVisit", reasonForVisit);
 
                 appointment.setInsuranceProvider(insuranceProvider);
-                request.setAttribute("insuranceProvider", insuranceProvider);
 
                 appointment.setInsurancePlanNum(insurancePlanNum);
-                request.setAttribute("insurancePlanNum", insurancePlanNum);
 
                 if ("".equals(message)) {
                     try {
@@ -154,30 +147,36 @@ public class Admin extends HttpServlet {
                     }
 
                     request.setAttribute("message", message);
-                    //request.setAttribute("user", user);
-//                    request.setAttribute("appointment", appointment);
-                    url = "/UserAppointments.jsp";
-                    LinkedHashMap<Integer, Appointments> appointments = new LinkedHashMap();
-                    try {
-                    //    appointments = BookingDB.selectLoggedInUserAppointments(user.getUserID());
 
-                    } catch (Exception e) {
-                        LOG.log(Level.SEVERE, null, e);
-                    }
-                    request.setAttribute("appointments", appointments);
+                    url = "/ADMIN/Admin.jsp";
+                    
+                    
                 } else {
                     request.setAttribute("message", message);
                    // request.setAttribute("user", user);
-                    url = "/CreateAppointment.jsp";
+                    url = "/ADMIN/AdminCreateAppt.jsp";
                 }
 
                 break;
             }
             case "recentAppts": {
+                url = "/ADMIN/Admin.jsp";
+                LinkedHashMap<Integer, Appointments> recentAppointments = new LinkedHashMap(); 
+                try {
+                    //Get the recent appts from SQL based on data from here. Will need to create SQL pull for date.
+                    recentAppointments = BookingDB.selectAllAppointments();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 
+                request.setAttribute("appointments", recentAppointments);
                 break;
             }
-            case "acceptDecline": {
+            case "confirmAppt": {
+                url = "/ADMIN/AdminAllAppts.jsp";
+                break;
+            }
+            case "editAppt": {
                 
                 break;
             }
@@ -186,6 +185,8 @@ public class Admin extends HttpServlet {
                 
                 LinkedHashMap<Integer, Users> users = new LinkedHashMap();
                 
+                String[] allRoles = {"doctor", "patient", "admin"};
+                
                 try {
                     users = BookingDB.selectAllUsers();
                 } catch (SQLException ex) {
@@ -193,6 +194,7 @@ public class Admin extends HttpServlet {
                 }
                 
                 request.setAttribute("users", users);
+                request.setAttribute("allRoles", allRoles);
                 
                 break;
             }
