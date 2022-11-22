@@ -577,7 +577,7 @@ public class BookingDB {
                 String insurancePlanNum = rs.getString("insurancePlanNum");
                 String notes = rs.getString("notes");
                 
-                appointment = new Appointments(apptID, apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum, notes);
+//                appointment = new Appointments(apptID, apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum, notes);
                 
                 appointments.put(apptID, appointment);
             }
