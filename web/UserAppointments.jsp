@@ -55,8 +55,8 @@
                             <td><c:out value="${item.value.reasonForVisit}" /></td>
                             <td>
                                 <c:choose>
-                                    <c:when test="${item.value.confirmed=='1'}">
-                                        Yes
+                                    <c:when test="${item.value.confirmed == '1'}">
+                                        Yes (this isn't working correctly)
                                     </c:when>    
                                     <c:otherwise>
                                         No

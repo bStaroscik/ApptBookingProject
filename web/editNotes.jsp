@@ -26,7 +26,7 @@
                 <input type="hidden" name="action" value="submitNotesEdit"> 
                 <input type="hidden" name="idValue" value="${idValue}"> 
                 <div>
-                    <textarea style="width: 100%" name="postText" rows='10' autofocus='true' maxlength='1024'>${noteText}</textarea>
+                    <textarea style="width: 100%" name="noteText" rows='10' autofocus='true' maxlength='1024'>${currentNotes.noteText}</textarea>
                 </div>
                 <br>
                 <input type="submit" value="Submit Edit">

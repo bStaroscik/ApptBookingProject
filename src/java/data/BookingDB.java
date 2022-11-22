@@ -394,7 +394,7 @@ public class BookingDB {
                 String reasonForVisit = rs.getString("reasonForVisit");
                 String insuranceProvider = rs.getString("insuranceProvider");
                 String insurancePlanNum = rs.getString("insurancePlanNum");
-                String notes = rs.getString("notes");
+                String notes = rs.getString("apptNotes");
                 Boolean confirmed = rs.getBoolean("confirmed");
                 
                 appointment = new Appointments(apptID, apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum, notes, confirmed);
@@ -482,7 +482,7 @@ public class BookingDB {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
-        String query = "UPDATE BAHRdata.Appointments SET notes = ? WHERE apptID = ?";
+        String query = "UPDATE BAHRdata.AppointmentInfo SET apptNotes = ? WHERE apptID = ?";
         try {
             ps = connection.prepareStatement(query);
        
@@ -509,7 +509,7 @@ public class BookingDB {
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String query = "SELECT * FROM BAHRdata.Appointments";
+        String query = "SELECT * FROM BAHRdata.AppointmentInfo";
         try {
             ps = connection.prepareStatement(query);
             rs = ps.executeQuery();
@@ -524,11 +524,11 @@ public class BookingDB {
                 String userLastName = rs.getString("userLastName");
                 String doctorFirstName = rs.getString("doctorFirstName");
                 String doctorLastName = rs.getString("doctorLastName");
-                int apptType = rs.getInt("apptType");
+                int apptType = rs.getInt("apptTypeID");
                 String reasonForVisit = rs.getString("reasonForVisit");
                 String insuranceProvider = rs.getString("insuranceProvider");
                 String insurancePlanNum = rs.getString("insurancePlanNum");
-                String notes = rs.getString("notes");
+                String notes = rs.getString("apptNotes");
                 Boolean confirmed = rs.getBoolean("confirmed");
                 
                 appointment = new Appointments(apptID, apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum, notes, confirmed);
