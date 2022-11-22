@@ -116,7 +116,7 @@ public class Private extends HttpServlet {
                                 //how to get to the appt page with the appts on it?  currently only goes to right page if using menu button
                                 break;
                             case "admin":
-                                url = "/AdminAllAppointments.jsp";
+                                url = "/ADMIN/Admin.jsp";
                                 break;
                             default:
                                 url = "/index.jsp";
@@ -284,7 +284,7 @@ public class Private extends HttpServlet {
                             url = "/UserAppointments.jsp";
                             break;
                         case "admin":
-                            url = "/AdminAllAppointments.jsp";
+                            url = "/ADMIN/Admin.jsp";
                             break;
                         default:
                             url = "/index.jsp";
@@ -409,6 +409,7 @@ public class Private extends HttpServlet {
                 String reasonForVisit = request.getParameter("reasonForVisit");
                 String insuranceProvider = request.getParameter("insuranceProvider");
                 String insurancePlanNum = request.getParameter("insurancePlanNum");
+                String confirmed = request.getParameter("confirmed");
                 message = "";
 
                 Appointments appointment = new Appointments();
@@ -446,6 +447,9 @@ public class Private extends HttpServlet {
 
                 appointment.setInsurancePlanNum(insurancePlanNum);
                 request.setAttribute("insurancePlanNum", insurancePlanNum);
+
+                appointment.setConfirmed(false);
+                request.setAttribute("confirmed", confirmed);
 
                 if ("".equals(message)) {
                     try {
@@ -493,6 +497,15 @@ public class Private extends HttpServlet {
                         LOG.log(Level.SEVERE, null, e);
                     }
                     request.setAttribute("appointments", appointments);
+
+                    LinkedHashMap<Integer, AppointmentTypes> appointmentTypes = new LinkedHashMap();
+                    try {
+                        appointmentTypes = BookingDB.getAllApptTypes();
+
+                    } catch (Exception e) {
+                        LOG.log(Level.SEVERE, null, e);
+                    }
+                    request.setAttribute("appointmentType", appointmentTypes);
                 }
                 break;
             }
@@ -527,17 +540,6 @@ public class Private extends HttpServlet {
                 String apptDate = request.getParameter("apptDate");
                 String apptTime = request.getParameter("apptTime");
                 String apptID = request.getParameter("idValue");
-//                String apptDate = request.getParameter("apptDate");
-//                    String apptTime = request.getParameter("apptTime");
-//                    String userID = request.getParameter("userID");
-//                    String userFirstName = request.getParameter("firstName");
-//                    String userLastName = request.getParameter("lastName");
-//                    String doctorFirstName = request.getParameter("doctorFirst");
-//                    String doctorLastName = request.getParameter("doctorLast");
-//                    String apptTypeID = request.getParameter("apptID");
-//                    String reasonForVisit = request.getParameter("reasonForVisit");
-//                    String insuranceProvider = request.getParameter("insuranceProvider");
-//                    String insurancePlanNum = request.getParameter("insurancePlanNum");
                 message = "";
 
                 LocalDate dateApptDate = LocalDate.parse(apptDate);
@@ -554,6 +556,61 @@ public class Private extends HttpServlet {
                 } catch (SQLException ex) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                     message = "Appointment could not be edited";
+                }
+
+                request.setAttribute("message", message);
+                request.setAttribute("appointment", appointment);
+                url = "/UserAppointments.jsp";
+                LinkedHashMap<Integer, Appointments> appointments = new LinkedHashMap();
+                try {
+                    appointments = BookingDB.selectLoggedInUserAppointments(user.getUserID());
+
+                } catch (Exception e) {
+                    LOG.log(Level.SEVERE, null, e);
+                }
+                request.setAttribute("appointments", appointments);
+                break;
+            }
+            //</editor-fold>
+
+            //<editor-fold desc="Cancel Patient Appointment">
+            case "cancelPatientAppointment": {
+                request.setAttribute("user", user);
+                url = "/AreYouSure.jsp";
+
+                LinkedHashMap<Integer, Appointments> appointments = new LinkedHashMap();
+                try {
+                    appointments = BookingDB.selectLoggedInUserAppointments(user.getUserID());
+
+                } catch (Exception e) {
+                }
+                request.setAttribute("appointments", appointments);
+                String idValue = request.getParameter("idValue");
+
+                Appointments currentAppointments = appointments.get(Integer.valueOf(idValue));
+                request.setAttribute("idValue", idValue);
+                request.setAttribute("apptDate", currentAppointments.getApptDate());
+                request.setAttribute("apptTime", currentAppointments.getApptTime());
+
+                break;
+            }
+            //</editor-fold>
+
+            //<editor-fold desc="Submit Cancel Patient Appointment">
+            case "submitCancelPatientAppointment": {
+                Appointments appointment = new Appointments();
+                String apptID = request.getParameter("idValue");
+                message = "";
+
+                appointment.setApptID(Integer.parseInt(apptID));
+
+                try {
+                    //UsersDB.updatePosts(postString, LocalDateTime.parse(postDate, formatter), Integer.parseInt(postID));
+                    BookingDB.deleteAppointment(appointment);
+                    message = "Appointment successfully deleted";
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                    message = "Appointment could not be deleted";
                 }
 
                 request.setAttribute("message", message);

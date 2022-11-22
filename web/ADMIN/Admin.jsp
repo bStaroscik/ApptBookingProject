@@ -10,22 +10,19 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="styles/main.css" type="text/css"/>
+        <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <title>Admin Home Page</title>
     </head>
     <body>
         <div class="wrapper">
+        <jsp:include page="/ADMIN/AdminNav.jsp" /> 
         <h1>This is an Admin Page</h1>
         
-        <jsp:include page="AdminNav.jsp" /> 
-        <%
-            String str = (String) session.getAttribute("username");
-            out.print("Welcome" + str);
-        %>
-        </font>
-        <h1>This is a placeholder for All Appointments Link</h1>
-        <h1>This is a placeholder for Accept/Decline Appointments Link</h1>
-        <h1>This is a placeholder for Booking Appointments Link</h1>
-        <h1>This is a placeholder for Recent Appointments Link</h1>
+
+        <h2>${message}</h2>
+
+        <h1>Welcome to the Admin page! Please choose an option above!</h1>
+        
         </div>
     </body>
 </html>

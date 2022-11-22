@@ -17,6 +17,14 @@
         <servlet-name>PrivateController</servlet-name>
         <url-pattern>/Private</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>AdminController</servlet-name>
+        <servlet-class>controllers.Admin</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminController</servlet-name>
+        <url-pattern>/Admin</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

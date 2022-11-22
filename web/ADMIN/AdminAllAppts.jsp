@@ -10,15 +10,16 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="styles/main.css" type="text/css"/>
         <title>Admin: All Appointments</title>
-        <link rel="stylesheet" href="newcss.css" type="text/css"/>
+        
     </head>
 
     <body>
         <div class="wrapper">
             <h1>All Appointments</h1>
 
-            <jsp:include page="AdmiNav.jsp" />
+            <jsp:include page="/ADMIN/AdminNav.jsp" />
             <br>
 
             <table id="appointments">
