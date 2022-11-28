@@ -48,6 +48,11 @@ public class Admin extends HttpServlet {
         }
         
         switch (action) {
+            case "adminHome": {
+                url = "/ADMIN/Admin.jsp";
+                
+                break;
+            }
             case "allAppts": {
                 url = "/ADMIN/AdminAllAppts.jsp";
                 LinkedHashMap<Integer, Appointments> appointments = new LinkedHashMap(); 
