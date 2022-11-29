@@ -40,7 +40,7 @@
             <form class="w3-container w3-card-4" action="Private" method="post">
                 <input type="hidden" name="action" value="attemptLogin">
                 <h2>Login</h2>
-                <h3>${message}</h3>
+                <p>${message}</p>
                 <div class="w3-section">      
                     <input class="w3-input" type="text" name="userName" value="<c:out value="" />" required>
                     <label>User Name</label>

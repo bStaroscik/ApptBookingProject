@@ -633,21 +633,6 @@ public class Private extends HttpServlet {
             }
             //</editor-fold>
 
-//            //<editor-fold desc="DESCRUPTION HERE">
-//            case "": {
-//
-//            }
-//            //</editor-fold>
-//            //<editor-fold desc="DESCRUPTION HERE">
-//            case "": {
-//
-//            }
-//            //</editor-fold>
-//            //<editor-fold desc="DESCRUPTION HERE">
-//            case "": {
-//
-//            }
-//            //</editor-fold>
         }
         //regardless of what happens put the message in the request and forward
         // to url

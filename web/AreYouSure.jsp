@@ -22,7 +22,7 @@
             <form class="w3-container w3-card-4" action="Private" method="post">
                 <input type="hidden" name="idValue" value="${idValue}"> 
                 <h2>Cancel Appointment</h2>
-                <h3>${message}</h3>
+                <p>${message}</p>
                 <h3 class="w3-center">Are you sure?</h3>
                 
                 <div class="w3-center">
@@ -32,8 +32,7 @@
                 </div>
                 <div class="w3-center">
                     <br>
-                    THIS CANCELS THE APPOINTMENT??
-                    <a href="UserAppointments.jsp"><input class="w3-button w3-theme" type="submit" value="No"></a>
+                    <a href="Private?action=getUserAppointments"><input class="w3-button w3-theme" type="button" value="No"></a>
                 </div>
                 <hr>
             </form>

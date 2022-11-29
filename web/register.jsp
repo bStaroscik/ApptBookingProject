@@ -24,7 +24,7 @@
             <form class="w3-container w3-card-4" action="Public" method="post">
                 <input type="hidden" name="action" value="register">
                 <h2>Register</h2>
-                <h3>${message}</h3>
+                <p>${message}</p>
                 <div class="w3-section">      
                     <input class="w3-input" type="text" name="firstName" value="<c:out value="${users.firstName}" />" required>
                     <label>First Name</label>

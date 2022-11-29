@@ -22,7 +22,7 @@
             <form class="w3-container w3-card-4" action="Private" method="post">
                 <input type="hidden" name="idValue" value="${idValue}"> 
                 <h2>Edit Notes</h2>
-                <h3>${message}</h3>
+                <p>${message}</p>
                 <input type="hidden" name="action" value="submitNotesEdit"> 
                 <input type="hidden" name="idValue" value="${idValue}"> 
                 <div>

@@ -22,7 +22,7 @@
             <form class="w3-container w3-card-4" action="Private" method="post">
                 <input type="hidden" name="idValue" value="${idValue}"> 
                 <h2>Edit Appointment</h2>
-                <h3>${message}</h3>
+                <p>${message}</p>
                 <div class="w3-section">      
                     <input class="w3-input" type="date" name="apptDate" value="${apptDate}" required>
                     <label>Appointment Date</label>

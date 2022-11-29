@@ -22,8 +22,8 @@
         <div class="w3-content" style="max-width:800px;position:relative">
             <form class="w3-container w3-card-4" action="Private" method="post">
                 <h2>Create Appointment</h2>
-                <h3>${message}</h3> 
-                <h3>${success}</h3>
+                <p>${message}</p> 
+                <p>${success}</p>
 
                 <p>${error}</p>
                 <div class="w3-section">      

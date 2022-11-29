@@ -20,8 +20,8 @@
         <jsp:include page="nav.jsp" /> 
         <body>
             <h1>Doctor Information</h1>
-            <h2><c:out value='${errorMessage}'/></h2>
-            <h2>${message}</h2>
+            <p><c:out value='${errorMessage}'/></p>
+            <p>${message}</p>
             <form>
                 <input type="hidden" name="action" value="logout"> 
                 <td><input type="submit" value="Logout"></td>

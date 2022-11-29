@@ -23,8 +23,8 @@
             <div class="w3-content" style="max-width:800px;position:relative">
                 <form class="w3-container w3-card-4" action="Private" method="post">
                     <h2>Profile Page</h2>
-                    <h3><c:out value='${errorMessage}'/></h3>
-                    <h3>${message}</h3>
+                    <p><c:out value='${errorMessage}'/></p>
+                    <p>${message}</p>
                     <p>Username: <c:out value="${user.email}" /></p>
                     <div class="w3-section">      
                         <input class="w3-input" type="text" name="firstName" value="<c:out value="${users.firstName}" />" required>
