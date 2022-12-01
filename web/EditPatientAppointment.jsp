@@ -36,32 +36,9 @@
                     <input type="hidden" name="action" value="submitPatientApptEdit">
                     <input class="w3-button w3-theme" type="submit" name ="submitPatientApptEdit" value="Submit Edit">
                 </div>
-                <hr>
+                <br>
             </form>
         </div>
-
-                    
-                    
-        <!--    <body>
-                <div class="wrapper">
-        <jsp:include page="nav.jsp" />
-        <h1>Edit Appointment</h1>
-        <h3>${message}</h3>
-        <form action="Private" method="post">
-            <input type="hidden" name="idValue" value="${idValue}"> 
-            <label>Appointment Date</label>
-            <input type="date" name="apptDate" value="${apptDate}" style="width: 150px;"/>
-            <br>
-
-            <label>Appointment Time</label>
-            <input type="time" name="apptTime" value="${apptTime}"  style="width: 150px;"/>
-            <br>
-
-            <div style="text-align: center;"><textarea style="text-align: center; width: 75%" type="text" name="postText" rows='10'cols='100' autofocus='true' maxlength='1024'>${noteText}</textarea></div>
-            <br>
-            <input type="hidden" name="action" value="submitPatientApptEdit">
-            <input type="submit" name="submitPatientApptEdit" value="Submit Edit">
-        </form>
-    </div>-->
+        <br><br>
     </body>
 </html>

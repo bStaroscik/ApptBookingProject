@@ -19,23 +19,7 @@
     <body>
         <!--<div class="wrapper">-->
         <jsp:include page="nav.jsp" />
-        <!--            <h1>Login</h1>
-                    <h3>${message}</h3>
-                    <form action="Private" method="post">
-                        <input type="hidden" name="action" value="attemptLogin">
-        
-                        <label>user name</label>
-                        <input type="text" name="userName" value="<c:out value="" />">
-                        <br>
-        
-                        <label>password</label>
-                        <input type="password" name="password" value="<c:out value="" />">
-                        <br>
-        
-                        <input type="submit" value="submit" style="align-content: center;">
-                    </form>
-                </div>-->
-        <hr>
+        <br>
         <div class="w3-content" style="max-width:800px;position:relative">
             <form class="w3-container w3-card-4" action="Private" method="post">
                 <input type="hidden" name="action" value="attemptLogin">
@@ -54,10 +38,9 @@
                     <!--<a class="w3-button w3-theme" value="submit">Login</a>-->
                     <input class="w3-button w3-theme" type="submit" value="submit" ">
                 </div>
-                <hr>
+                <br>
             </form>
         </div>
-        <!--</form>-->
     </body>
 
 </html>
