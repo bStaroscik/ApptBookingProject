@@ -420,7 +420,6 @@ public class BookingDB {
         }
     }
     
-    
     public static void updateAppointment(Appointments appointment) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -604,7 +603,7 @@ public class BookingDB {
                 String userLastName = rs.getString("userLastName");
                 String doctorFirstName = rs.getString("doctorFirstName");
                 String doctorLastName = rs.getString("doctorLastName");
-                int apptType = rs.getInt("apptType");
+                int apptType = rs.getInt("apptTypeID");
                 String reasonForVisit = rs.getString("reasonForVisit");
                 String insuranceProvider = rs.getString("insuranceProvider");
                 String insurancePlanNum = rs.getString("insurancePlanNum");

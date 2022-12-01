@@ -8,7 +8,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <!--<div class="wrapper">-->
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>User Appointments</title>
@@ -21,7 +20,6 @@
     <body>
         <div class="w3-container">
             <div class="w3-center">
-                <!--                    <h2>Current Scheduled Appointments</h2>-->
                 <p><c:out value='${errorMessage}'/></p>
                 <p>${message}</p>
                 <p>Name: <c:out value="${user.firstName}" /> <c:out value="${user.lastName}" /></p>
@@ -55,34 +53,34 @@
                             <%--<c:out value="${item.value.apptType}" />--%>
                             <c:choose>
                                 <c:when test="${item.value.apptType == '2'}">
-                                    Chronic Care Visit (2)
+                                    Chronic Care Visit
                                 </c:when> 
                                 <c:when test="${item.value.apptType == '3'}">
-                                    Diagnostic and Labs Visit (3)
+                                    Diagnostic and Labs Visit
                                 </c:when> 
                                 <c:when test="${item.value.apptType == '4'}">
-                                    Follow-Up Visit (4)
+                                    Follow-Up Visit
                                 </c:when> 
                                 <c:when test="${item.value.apptType == '5'}">
-                                    Inpatient Procedure Visit (5)
+                                    Inpatient Procedure Visit
                                 </c:when> 
                                 <c:when test="${item.value.apptType == '6'}">
-                                    Medication Update Visit (6)
+                                    Medication Update Visit
                                 </c:when>
                                 <c:when test="${item.value.apptType == '7'}">
-                                    Mental Health Visit (7)
+                                    Mental Health Visit
                                 </c:when> 
                                 <c:when test="${item.value.apptType == '8'}">
-                                    New Patient Visit (8)
+                                    New Patient Visit
                                 </c:when> 
                                 <c:when test="${item.value.apptType == '9'}">
-                                    Physical Visit (9)
+                                    Physical Visit
                                 </c:when> 
                                 <c:when test="${item.value.apptType == '10'}">
-                                    Routine Visit (10)
+                                    Routine Visit
                                 </c:when> 
                                 <c:otherwise>
-                                    Well Woman Visit (11)
+                                    Well Woman Visit
                                 </c:otherwise>
                             </c:choose>
                         </td>
@@ -116,72 +114,6 @@
                     </tbody>
                 </table>
             </div>
-
-
-
-
-            <!--                <h1>Current Scheduled Appointments</h1>
-                            <h3><c:out value='${errorMessage}'/></h3>
-                            <h3>${message}</h3>
-                            <div class="center">
-                                <p>Name: <c:out value="${user.firstName}" /> <c:out value="${user.lastName}" /></p>
-                                <p>Address: <c:out value="${user.address}" /></p>
-                                <p>City, State, Zip Code: <c:out value="${user.city}" /> <c:out value="${user.state}" />, <c:out value="${user.zipCode}" /></p>
-                                <p>Username: <c:out value="${user.email}" /></p>
-            
-                                <table style="margin: auto;">
-                                                        <thead>
-                                                        <th colspan="8">Appointments</th>
-                                                        </thead>
-                                    <tr>
-                                        <th>Appt Date</th>
-                                        <th>Appt Time</th>
-                                        <th>Doctor Name</th>
-                                        <th>Appt Type</th>
-                                        <th>Reason for Visit</th>
-                                        <th>Confirmed</th>
-                                                                <th>Insurance Provider</th>
-                                                                <th>Insurance Plan</th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-            <c:forEach var="item" items="${appointments}" varStatus="status">
-                <tr>
-                <input type="hidden" name="apptID" value="<c:out value='${item.value.apptID}'/>">
-                <td><c:out value="${item.value.apptDate}" /></td>
-                <td><c:out value="${item.value.apptTime}" /></td>
-                    <td><c:out value="${item.value.userFirstName}" /> <c:out value="${item.value.userLastName}" /></td>
-                <td><c:out value="${item.value.doctorFirstName}" /> <c:out value="${item.value.doctorLastName}" /></td>
-                <td><c:out value="${item.value.apptType}" /></td>
-                <td><c:out value="${item.value.reasonForVisit}" /></td>
-                <td>
-                <c:choose>
-                    <c:when test="${item.value.confirmed=='1'}">
-                        Yes
-                    </c:when>    
-                    <c:otherwise>
-                        No
-                    </c:otherwise>
-                </c:choose>
-            </td>
-
-            <form action="Private" method="post">
-                <input type="hidden" name="action" value="editPatientAppointment"> 
-                <input type="hidden" name="idValue" value="<c:out value='${item.value.apptID}'/>">
-                <td><input type="submit" value="Edit Appt"></td>
-            </form>
-            <form action="Private" method="post">
-                <input type="hidden" name="action" value="cancelPatientAppointment"> 
-                <input type="hidden" name="idValue" value="<c:out value='${item.value.apptID}'/>">
-                <td><input type="submit" value="Cancel Appt"></td>
-            </form>
-            </tr>
-            <td  style="display:none;"><c:out value="${item.value.insuranceProvider}" /></td>
-            <td  style="display:none;"><c:out value="${item.value.insurancePlanNum}" /></td>
-            </c:forEach>
-
-        </table>
-    </div>-->
+            <br><br>
     </body>
-    <!--</div>-->
 </html>
