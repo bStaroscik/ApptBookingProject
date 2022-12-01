@@ -51,6 +51,15 @@ public class Admin extends HttpServlet {
             case "adminHome": {
                 url = "/ADMIN/Admin.jsp";
                 
+                LinkedHashMap<Integer, Appointments> recentAppointments = new LinkedHashMap(); 
+                try {
+                    recentAppointments = BookingDB.getTodaysAppointments();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                request.setAttribute("appointments", recentAppointments);
+                
                 break;
             }
             case "allAppts": {
@@ -168,8 +177,7 @@ public class Admin extends HttpServlet {
                 url = "/ADMIN/Admin.jsp";
                 LinkedHashMap<Integer, Appointments> recentAppointments = new LinkedHashMap(); 
                 try {
-                    //Get the recent appts from SQL based on data from here. Will need to create SQL pull for date.
-                    recentAppointments = BookingDB.selectAllAppointments();
+                    recentAppointments = BookingDB.getTodaysAppointments();
                 } catch (SQLException ex) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -179,6 +187,10 @@ public class Admin extends HttpServlet {
             }
             case "confirmAppt": {
                 url = "/ADMIN/AdminAllAppts.jsp";
+                
+                message = "Appointment has been confirmed";
+                
+                request.setAttribute("message", message);
                 break;
             }
             case "editAppt": {
@@ -187,6 +199,78 @@ public class Admin extends HttpServlet {
             }
             case "allUsers": {
                 url = "/ADMIN/UpdateRole.jsp";
+                
+                LinkedHashMap<Integer, Users> users = new LinkedHashMap();
+                
+                String[] allRoles = {"doctor", "patient", "admin"};
+                
+                try {
+                    users = BookingDB.selectAllUsers();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                request.setAttribute("users", users);
+                request.setAttribute("allRoles", allRoles);
+                
+                break;
+            }
+            case "deleteAppt": {
+                
+                break;
+            }
+            case "updateRole": {
+                url = "/ADMIN/UpdateRole.jsp";
+                String userEmail = request.getParameter("userEmail");
+                String updateRole = request.getParameter("role");
+                Users user = new Users();
+                
+                try {
+                    user = BookingDB.getEmailUsername(userEmail);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                user.setRole(updateRole);
+                
+                try {
+                    BookingDB.updateUser(user);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                LinkedHashMap<Integer, Users> users = new LinkedHashMap();
+                
+                String[] allRoles = {"doctor", "patient", "admin"};
+                
+                try {
+                    users = BookingDB.selectAllUsers();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                request.setAttribute("users", users);
+                request.setAttribute("allRoles", allRoles);
+                break;
+            }
+            case "deleteUser": {
+                url = "/ADMIN/UpdateRole.jsp";
+                String userEmail = request.getParameter("userEmail");
+
+                Users user = new Users();
+                
+                try {
+                    user = BookingDB.getEmailUsername(userEmail);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                
+                try {
+                    BookingDB.deleteUsers(user);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 
                 LinkedHashMap<Integer, Users> users = new LinkedHashMap();
                 

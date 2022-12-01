@@ -118,16 +118,18 @@ public class BookingDB {
         
         try {
             ps = connection.prepareStatement(query);
-            ps.setInt(1, user.getUserID());
-            ps.setString(2, user.getFirstName());
-            ps.setString(3, user.getLastName());
-            ps.setString(4, user.getAddress());
-            ps.setString(5, user.getCity());
-            ps.setString(6, user.getState());
-            ps.setInt(7, user.getZipCode());
-            ps.setString(8, user.getPhoneNumber());
-            ps.setString(9, user.getEmail());
-            ps.setString(10, user.getRole());
+
+            ps.setString(1, user.getFirstName());
+            ps.setString(2, user.getLastName());
+            ps.setString(3, user.getAddress());
+            ps.setString(4, user.getCity());
+            ps.setString(5, user.getState());
+            ps.setInt(6, user.getZipCode());
+            ps.setString(7, user.getPhoneNumber());
+            ps.setString(8, user.getEmail());
+            ps.setString(9, user.getRole());
+            ps.setString(10, user.getPassword());
+            ps.setInt(11, user.getUserID());
             
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -418,6 +420,7 @@ public class BookingDB {
         }
     }
     
+    
     public static void updateAppointment(Appointments appointment) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -432,6 +435,36 @@ public class BookingDB {
             ps.setDate(1, Date.valueOf(appointment.getApptDate()));
             ps.setTime(2, Time.valueOf(appointment.getApptTime()));
             ps.setInt(3, appointment.getApptID());
+            
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** insert sql", e);
+            throw e;
+            
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** insert null pointer??", e);
+                throw e;
+            }
+        }
+    }
+    
+    //This one confirms the appointment for the patient/Admin
+    public static void confirmAppointment(Appointments appointment) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "UPDATE BAHRdata.appointmentinfo SET confirmed = ? "
+                + "WHERE apptID = ?";
+        
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setBoolean(1, appointment.isConfirmed());
             
             ps.executeUpdate();
         } catch (SQLException e) {

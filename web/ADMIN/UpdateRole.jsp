@@ -31,7 +31,7 @@
             
             <c:forEach var="item" items="${users}" varStatus="status">
                 <tr>
-
+                <form action="Admin" method="post">
                     <td><c:out value="${item.value.firstName}" /></td>
                     <td><c:out value="${item.value.lastName}" /></td>
                     <td><c:out value="${item.value.role}" /></td>
@@ -42,11 +42,23 @@
                             </c:forEach>
                         </select>
                     </td>
+                    <td>
+
+                        <input type="hidden" name="action" value="updateRole">
+                        <input type="hidden" name="userEmail" value="<c:out value='${item.value.email}' />">
+                        <input type="submit" name="updateRole" value="submit">
+                </form>
+                    </td>
+                    <td>
+                        <form action="Admin" method="post">
+                            <input type="hidden" name="action" value="deleteUser">
+                            <input type="hidden" name="userEmail" value="<c:out value='${item.value.email}' />">
+                            <input type="submit" name="deleteUser" value="Delete User">
+                        </form>
+                    </td>
                 </tr>
             </c:forEach>
         </table>
        </div>
     </body>
 </html>
-
-

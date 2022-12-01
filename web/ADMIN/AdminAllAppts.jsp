@@ -59,20 +59,23 @@
                         <td><c:out value="${item.value.insuranceProvider}" /></td>
                         <td><c:out value="${item.value.insurancePlanNum}" /></td>
                         <td>
-                            <form>
+                            <form action="Admin" method="post">
                                 <input type="hidden" name="action" value="confirmAppt">
+                                <input type="hidden" name="idValue" value="<c:out value='${item.value.apptID}'/>">
                                 <input type="submit" name ="confirm" value="Confirm">
                             </form>
                         </td>
                         <td>
-                            <form>
+                            <form action="Admin" method="post">
                                 <input type="hidden" name="action" value="editAppt">
+                                <input type="hidden" name="idValue" value="<c:out value='${item.value.apptID}'/>">
                                 <input type="submit" name ="edit" value="Edit">
                             </form>
                         </td>
                         <td>
-                            <form>
+                            <form action="Admin" method="post">
                                 <input type="hidden" name="action" value="deleteAppt">
+                                <input type="hidden" name="idValue" value="<c:out value='${item.value.apptID}'/>">
                                 <input type="submit" name="delete" value="Delete">
                             </form>
                         </td>
