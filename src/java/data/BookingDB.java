@@ -401,7 +401,7 @@ public class BookingDB {
                 
                 appointment = new Appointments(apptID, apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum, notes, confirmed);
                 
-                appointments.put(userID, appointment);
+                appointments.put(apptID, appointment);
             }
             return appointments;
         } catch (SQLException e) {
@@ -464,6 +464,7 @@ public class BookingDB {
         try {
             ps = connection.prepareStatement(query);
             ps.setBoolean(1, appointment.isConfirmed());
+            ps.setInt(2, appointment.getApptID());
             
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -588,7 +589,7 @@ public class BookingDB {
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String query = "SELECT * FROM BAHRdata.Appointments WHERE apptDate=now()";
+        String query = "SELECT * FROM BAHRdata.appointmentinfo WHERE apptDate = CAST(GETDATE() as DATE)";
         try {
             ps = connection.prepareStatement(query);
             rs = ps.executeQuery();
