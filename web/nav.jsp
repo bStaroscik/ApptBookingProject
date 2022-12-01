@@ -14,8 +14,12 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
     </head>
     <div class="w3-container">
-        <hr>
-        <h2 class="w3-center">Family Medicine</h2>
+        <div class="w3-third" style='height: 200px; width: 200px;'>
+            <img src="${pageContext.request.contextPath}/Images/HealthCareLogo.png" alt="Health Care Logo" style="width:100%">
+        </div>
+        <div class="w3-third" style='height: 200px; width: 200px;'>
+            <img src="${pageContext.request.contextPath}/Images/HealthCareName.png" alt="Health Care Name" style="width:100%">
+        </div>
         <div class="w3-bar w3-theme">
             <a href="index.jsp" class="w3-bar-item w3-button w3-padding-16">Login</a>
             <a href="register.jsp" class="w3-bar-item w3-button w3-padding-16">Register</a>
