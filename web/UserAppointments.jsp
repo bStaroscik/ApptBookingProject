@@ -51,7 +51,41 @@
                         <td><c:out value="${item.value.apptDate}" /></td>
                         <td><c:out value="${item.value.apptTime}" /></td>
                         <td><c:out value="${item.value.doctorFirstName}" /> <c:out value="${item.value.doctorLastName}" /></td>
-                        <td><c:out value="${item.value.apptType}" /></td>
+                        <td>
+                            <%--<c:out value="${item.value.apptType}" />--%>
+                            <c:choose>
+                                <c:when test="${item.value.apptType == '2'}">
+                                    Chronic Care Visit (2)
+                                </c:when> 
+                                <c:when test="${item.value.apptType == '3'}">
+                                    Diagnostic and Labs Visit (3)
+                                </c:when> 
+                                <c:when test="${item.value.apptType == '4'}">
+                                    Follow-Up Visit (4)
+                                </c:when> 
+                                <c:when test="${item.value.apptType == '5'}">
+                                    Inpatient Procedure Visit (5)
+                                </c:when> 
+                                <c:when test="${item.value.apptType == '6'}">
+                                    Medication Update Visit (6)
+                                </c:when>
+                                <c:when test="${item.value.apptType == '7'}">
+                                    Mental Health Visit (7)
+                                </c:when> 
+                                <c:when test="${item.value.apptType == '8'}">
+                                    New Patient Visit (8)
+                                </c:when> 
+                                <c:when test="${item.value.apptType == '9'}">
+                                    Physical Visit (9)
+                                </c:when> 
+                                <c:when test="${item.value.apptType == '10'}">
+                                    Routine Visit (10)
+                                </c:when> 
+                                <c:otherwise>
+                                    Well Woman Visit (11)
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
                         <td><c:out value="${item.value.reasonForVisit}" /></td>
                         <td>
                             <c:choose>

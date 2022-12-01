@@ -575,9 +575,10 @@ public class BookingDB {
                 String reasonForVisit = rs.getString("reasonForVisit");
                 String insuranceProvider = rs.getString("insuranceProvider");
                 String insurancePlanNum = rs.getString("insurancePlanNum");
-                String notes = rs.getString("notes");
+                String notes = rs.getString("apptNotes");
+                Boolean confirmed = rs.getBoolean("confirmed");
                 
-//                appointment = new Appointments(apptID, apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum, notes);
+                appointment = new Appointments(apptID, apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum, notes, confirmed);
                 
                 appointments.put(apptID, appointment);
             }
