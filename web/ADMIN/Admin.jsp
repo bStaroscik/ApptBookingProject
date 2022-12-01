@@ -27,6 +27,43 @@
 
             <h1>Welcome to the Admin page! Please choose an option above!</h1>
             <!-- Recent appointments for today will go here -->
+            
+            <table id="appointments" class="w3-table w3-striped w3-bordered">
+                <thead>
+                    <tr class="w3-theme">
+                        <th>Appt ID</th>
+                        <th>Appt Date</th>
+                        <th>Appt Time</th>
+                        <th>User Name</th>
+                        <th>Patient First Name</th>
+                        <th>Patient Last Name</th>
+                        <th>Doctor First Name</th>
+                        <th>Doctor Last Name</th>
+                        <th>Appt Type</th>
+                        <th>Reason for Visit</th>
+                        <th>Insurance Provider</th>
+                        <th>Insurance Plan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="item" items="${appointments}" varStatus="status">
+                    <tr>
+                        <td><c:out value="${item.key}" /></td>
+                        <td><c:out value="${item.value.apptDate}" /></td>
+                        <td><c:out value="${item.value.apptTime}" /></td>
+                        <td><c:out value="${item.value.userID}" /></td>
+                        <td><c:out value="${item.value.userFirstName}" /></td>
+                        <td><c:out value="${item.value.userLastName}" /></td>
+                        <td><c:out value="${item.value.doctorFirstName}" /></td>
+                        <td><c:out value="${item.value.doctorLastName}" /></td>
+                        <td><c:out value="${item.value.apptType}" /></td>
+                        <td><c:out value="${item.value.reasonForVisit}" /></td>
+                        <td><c:out value="${item.value.insuranceProvider}" /></td>
+                        <td><c:out value="${item.value.insurancePlanNum}" /></td>
+                    </tr>
+                </c:forEach>
+              </tbody>
+            </table>
 
         </div>
     </body>
