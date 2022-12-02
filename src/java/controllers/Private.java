@@ -122,6 +122,15 @@ public class Private extends HttpServlet {
                                 break;
                             case "admin":
                                 url = "/ADMIN/Admin.jsp";
+
+                                LinkedHashMap<Integer, Appointments> recentAppointments = new LinkedHashMap();
+                                try {
+                                    recentAppointments = BookingDB.getTodaysAppointments();
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+
+                                request.setAttribute("appointments", recentAppointments);
                                 break;
                             default:
                                 url = "/index.jsp";
@@ -147,7 +156,16 @@ public class Private extends HttpServlet {
                         url = "/UserAppointments.jsp";
                         break;
                     case "admin":
-                        url = "/AdminAllAppointments.jsp";
+                        url = "/ADMIN/Admin.jsp";
+
+                        LinkedHashMap<Integer, Appointments> recentAppointments = new LinkedHashMap();
+                        try {
+                            recentAppointments = BookingDB.getTodaysAppointments();
+                        } catch (SQLException ex) {
+                            Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                        request.setAttribute("appointments", recentAppointments);
                         break;
                     default:
                         url = "/index.jsp";
@@ -290,6 +308,15 @@ public class Private extends HttpServlet {
                             break;
                         case "admin":
                             url = "/ADMIN/Admin.jsp";
+
+                            LinkedHashMap<Integer, Appointments> recentAppointments = new LinkedHashMap();
+                            try {
+                                recentAppointments = BookingDB.getTodaysAppointments();
+                            } catch (SQLException ex) {
+                                Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
+                            request.setAttribute("appointments", recentAppointments);
                             break;
                         default:
                             url = "/index.jsp";

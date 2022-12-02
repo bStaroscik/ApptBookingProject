@@ -9,6 +9,7 @@ import business.Appointments;
 import business.Users;
 import data.BookingDB;
 import java.io.IOException;
+import static java.lang.Integer.parseInt;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -194,7 +195,50 @@ public class Admin extends HttpServlet {
                 break;
             }
             case "editAppt": {
+                url = "/ADMIN/AdminEditAppt.jsp";
+                String editApptID = request.getParameter("idValue");
                 
+                Appointments editAppt = new Appointments();
+                
+                try {
+                    editAppt = BookingDB.getAppointment(editApptID);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                request.setAttribute("editAppt", editAppt);
+                
+                
+                break;
+            }
+            //Will need review and validation
+            case "submitApptEdit": {
+                url = "/ADMIN/AdminAllAppts.jsp";
+                
+                String editApptDate = (String) request.getAttribute("apptDate");
+                String editApptTime = (String) request.getAttribute("apptTime");
+                String editApptID = (String) request.getAttribute("idValue");
+                message = "";
+                
+                Appointments submitEditAppt = new Appointments();
+                
+                LocalDate dateApptDate = LocalDate.parse(editApptDate);
+                LocalTime timeApptTime = LocalTime.parse(editApptTime);
+
+                
+                try {
+                    submitEditAppt = BookingDB.getAppointment(editApptID);
+
+                    submitEditAppt.setApptDate(dateApptDate);
+                    submitEditAppt.setApptTime(timeApptTime);
+                    try {
+                        BookingDB.updateAppointment(submitEditAppt);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 break;
             }
             case "allUsers": {
@@ -216,6 +260,33 @@ public class Admin extends HttpServlet {
                 break;
             }
             case "deleteAppt": {
+                url = "/ADMIN/AdminAllAppts.jsp";
+                String delApptID = request.getParameter("idValue");
+                
+                Appointments delAppt = new Appointments();
+                
+                try {
+                    delAppt = BookingDB.getAppointment(delApptID);
+                    
+                    try {
+                        BookingDB.deleteAppointment(delAppt);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                
+                
+                LinkedHashMap<Integer, Appointments> appointments = new LinkedHashMap(); 
+                try {
+                    appointments = BookingDB.selectAllAppointments();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                request.setAttribute("appointments", appointments);
                 
                 break;
             }
@@ -264,7 +335,6 @@ public class Admin extends HttpServlet {
                 } catch (SQLException ex) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
                 
                 try {
                     BookingDB.deleteUsers(user);

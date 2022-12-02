@@ -214,6 +214,7 @@ public class BookingDB {
             
         } finally {
             try {
+                //rs.close() here?
                 ps.close();
                 pool.freeConnection(connection);
             } catch (Exception e) {
@@ -482,6 +483,61 @@ public class BookingDB {
         }
     }
     
+    //Gets a singular appointment from the appt ID
+    public static Appointments getAppointment(String delApptID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query
+                = "SELECT * FROM BAHRdata.appointmentinfo "
+                + "WHERE apptID = ?";
+        
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, delApptID);
+            
+            rs = ps.executeQuery();
+            
+            Appointments appointment = null;
+            
+            if(rs.next()) {
+                int apptID = rs.getInt("apptID");
+                LocalDate apptDate = rs.getDate("apptDate").toLocalDate();
+                LocalTime apptTime = rs.getTime("apptTime").toLocalTime();
+                int userID = rs.getInt("userID");
+                String userFirstName = rs.getString("userFirstName");
+                String userLastName = rs.getString("userLastName");
+                String doctorFirstName = rs.getString("doctorFirstName");
+                String doctorLastName = rs.getString("doctorLastName");
+                int apptType = rs.getInt("apptTypeId");
+                String reasonForVisit = rs.getString("reasonForVisit");
+                String insuranceProvider = rs.getString("insuranceProvider");
+                String insurancePlanNum = rs.getString("insurancePlanNum");
+                String notes = rs.getString("apptNotes");
+                Boolean confirmed = rs.getBoolean("confirmed");
+                
+                appointment = new Appointments(apptID, apptDate, apptTime, userID, userFirstName, userLastName, doctorFirstName, doctorLastName, apptType, reasonForVisit, insuranceProvider, insurancePlanNum, notes, confirmed);
+                
+            }
+            return appointment;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** insert sql", e);
+            throw e;
+            
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** insert null pointer??", e);
+                throw e;
+            }
+        }
+    }
+    
+    //Deletes the appointment
     public static void deleteAppointment(Appointments appointment) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
