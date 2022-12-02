@@ -181,7 +181,6 @@ public class Private extends HttpServlet {
                 break;
             }
 
-            //on create appt page, add drop down for doctors and appt types
             //<editor-fold desc="Edit Profile Redirect">
             case "editProfile": { //for any user
                 request.setAttribute("user", user);

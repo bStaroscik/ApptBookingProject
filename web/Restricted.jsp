@@ -19,10 +19,6 @@
         </head>
         <jsp:include page="nav.jsp" /> 
         <body>
-            <!--            <h1>Restricted</h1>
-                        <h3><c:out value='${errorMessage}'/></h3>
-                        <h3>${message}</h3>-->
-
             <div class="w3-center">
                 <h2>Restricted</h2>
                 <p><c:out value='${errorMessage}'/></p>

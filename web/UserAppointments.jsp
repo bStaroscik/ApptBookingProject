@@ -110,10 +110,10 @@
                         <td  style="display:none;"><c:out value="${item.value.insuranceProvider}" /></td>
                         <td  style="display:none;"><c:out value="${item.value.insurancePlanNum}" /></td>
                     </c:forEach>
-
                     </tbody>
                 </table>
             </div>
-            <br><br>
+        </div>
+        <br><br>
     </body>
 </html>
