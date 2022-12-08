@@ -231,7 +231,7 @@ public class BookingDB {
         ResultSet rs = null;
 
         String query = "SELECT * FROM BAHRdata.appointmentinfo "
-                     + "WHERE userID = ?";
+                     + "WHERE userID = ? ORDER by apptDate";
         try {
             ps = connection.prepareStatement(query);
             ps.setInt(1, loggedInUserID);
@@ -376,7 +376,7 @@ public class BookingDB {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String query = "SELECT * FROM BAHRdata.appointmentinfo";
+        String query = "SELECT * FROM BAHRdata.appointmentinfo ORDER by apptDate";
         try {
             ps = connection.prepareStatement(query);
             rs = ps.executeQuery();
