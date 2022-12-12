@@ -34,6 +34,7 @@
                     <br>
                     <a href="Private?action=getUserAppointments"><input class="w3-button w3-theme" type="button" value="No"></a>
                 </div>
+                <br>
             </form>
         </div>
         <br><br>

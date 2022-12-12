@@ -5,6 +5,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -37,8 +38,9 @@
                     </thead>
                     <tbody>
                         <c:forEach var="Appointment" items="${Appointments}">
+                            <fmt:parseDate value="${Appointment.value.apptDate}" pattern="yyyy-MM-dd" var="apptDate" type="date"/>
                             <tr>
-                                <td><c:out value='${Appointment.value.apptDate}'/></td>
+                                <td><fmt:formatDate pattern="MMM. dd, yyyy" value="${apptDate}"/></td>
                                 <td><c:out value='${Appointment.value.apptTime}'/></td>
                                 <td><c:out value='${Appointment.value.apptType}'/></td>
                                 <td><c:out value='${Appointment.value.userFirstName}'/> <c:out value='${Appointment.value.userLastName}'/></td>
