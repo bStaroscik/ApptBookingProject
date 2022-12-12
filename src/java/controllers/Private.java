@@ -17,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -232,7 +233,7 @@ public class Private extends HttpServlet {
                     user.setCity(city);
                 }
 
-                if (state.length() > 2 || state.length() < 1) {
+                if (state.length() != 2) {
                     message += "State Must Be In Abbreviated Format (XX).<br />";
                 } else {
                     request.setAttribute("state", state);
@@ -244,9 +245,14 @@ public class Private extends HttpServlet {
                 if(zip.length() < 1){
                     message += "Zip Code Must Be 6 Digits.<br />";
                 } else {
-                    if (zip.length() > 6) {
-                    message += "Zip Code Must Be 6 Digits.<br />";
+                    if (zip.length() > 5) {
+                    message += "Zip Code Must Be 5 Digits.<br />";
                     request.setAttribute("user.zipCode", zip);
+                    try {
+                            user.setZipCode(Integer.parseInt(zip));
+                        } catch (Exception e) {
+                            message += "Zip Code Must Be an Integer. <br />";
+                        }
                     } else {
                         try {
                             user.setZipCode(Integer.parseInt(zip));
@@ -276,7 +282,8 @@ public class Private extends HttpServlet {
                     if (email.equals(originalID)){
                         
                     } else {
-                        if (userCompare.equals(null)) {
+                        if (Objects.isNull(userCompare)) {
+                            
                         } else {
                             message += "Email already exists.<br />";
                         }

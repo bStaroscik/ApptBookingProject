@@ -24,7 +24,7 @@
                 <form class="w3-container w3-card-4" action="Private" method="post">
                     <h2>Profile Page</h2>
                     <p style="color: red">${errorMessage}</p>
-                    <p>${message}</p>
+                    <p>${messages}</p>
                     <p>Username: <c:out value="${userOriginalID}" /></p>
                     <div class="w3-section">      
                         <input class="w3-input" type="text" name="firstName" value="<c:out value="${user.firstName}" />" required>
