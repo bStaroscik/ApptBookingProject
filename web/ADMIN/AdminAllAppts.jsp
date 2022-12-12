@@ -22,6 +22,7 @@
             <br>
             <div class="w3-responsive w3-card-4">
                 <h2 class="w3-center">All Appointments</h2>
+                <p>${message}</p>
                 <table id="appointments" class="w3-table w3-striped w3-bordered">
                     <thead>
                         <tr class="w3-theme">

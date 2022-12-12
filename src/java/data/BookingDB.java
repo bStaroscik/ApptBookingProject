@@ -224,6 +224,55 @@ public class BookingDB {
         }
     }
     
+    //Get user from userID
+    public static Users getUser(Integer patientID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String query = "SELECT * FROM BAHRdata.users "
+                     + "WHERE userID = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, patientID);        
+            rs = ps.executeQuery();
+            
+            Users user = null;
+            
+            if(rs.next()) {
+                int userID = rs.getInt("userID");
+                String firstName = rs.getString("firstName");
+                String lastName = rs.getString("lastName");
+                String address = rs.getString("address");
+                String city = rs.getString("city");
+                String state = rs.getString("state");
+                int zipCode = rs.getInt("zipCode");
+                String phoneNumber = rs.getString("phoneNumber");
+                String email = rs.getString("email");
+                String role = rs.getString("role");
+                String password = rs.getString("password");
+                user = new Users(userID, firstName, lastName, address, city, state, zipCode, phoneNumber, email, role, password);
+                
+                
+            }
+            return user;
+                
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** insert sql", e);
+            throw e;
+            
+        } finally {
+            try {
+                //rs.close() here?
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** insert null pointer??", e);
+                throw e;
+            } 
+        }
+    }
+    
     public static LinkedHashMap<Integer, Appointments> selectLoggedInUserAppointments(int loggedInUserID) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
