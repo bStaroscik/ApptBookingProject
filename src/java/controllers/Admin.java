@@ -188,10 +188,40 @@ public class Admin extends HttpServlet {
             }
             case "confirmAppt": {
                 url = "/ADMIN/AdminAllAppts.jsp";
+                String confirmApptID = request.getParameter("idValue");
                 
-                message = "Appointment has been confirmed";
+                Appointments confirmAppt = new Appointments();
+                
+                try {
+                    confirmAppt = BookingDB.getAppointment(confirmApptID);
+                    
+                    if (confirmAppt.isConfirmed()) {
+                        message = "This appointment has already been confirmed";
+                    } else {
+                        confirmAppt.setConfirmed(true);
+                        
+                        try {
+                            BookingDB.confirmAppointment(confirmAppt);
+                            message = "Appointment has been confirmed";
+                        } catch (SQLException ex) {
+                            Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                LinkedHashMap<Integer, Appointments> appointments = new LinkedHashMap(); 
+                try {
+                    appointments = BookingDB.selectAllAppointments();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                
                 
                 request.setAttribute("message", message);
+                request.setAttribute("appointments", appointments);
                 break;
             }
             case "editAppt": {
