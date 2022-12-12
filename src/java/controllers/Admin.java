@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +23,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+//import javax.mail.*;
+//import javax.mail.internet.*;
+//import javax.activation.*;
+
+     
 
 /**
  *
@@ -203,6 +209,67 @@ public class Admin extends HttpServlet {
                         try {
                             BookingDB.confirmAppointment(confirmAppt);
                             message = "Appointment has been confirmed";
+                            Users user = new Users();
+                            try {
+                                user = BookingDB.getUser(confirmAppt.getUserID());
+                            } catch (SQLException ex) {
+                                Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+//                            //Begin to send email
+//                            
+//                            String to = user.getEmail();
+//                            String from = "family_medicine@gmail.com";
+//                            //String host = "smtp.gmail.com";
+//                            
+////                            // Get system properties object
+//                            Properties properties = System.getProperties();
+////
+////                            // Setup mail server
+////                            properties.setProperty("mail.smtp.host", host);
+//
+//                            //Properties properties = new Properties();
+//                            //properties.put("mail.transport.protocol", "smtp");
+//                            properties.put("mail.smtps.host", "smtp.gmail.com");
+//                            properties.put("mail.smtps.port", 465);
+//                            properties.put("mail.smtp.ssl.enable", "true");
+//                            properties.put("mail.smtps.auth", "true");
+//                            properties.put("mail.smtps.quitwait", "false");
+//
+//                            // Get the default Session object.
+//                            Session mailSession = Session.getInstance(properties, new javax.mail.Authenticator() {
+//                                protected PasswordAuthentication getPasswordAuthentication() {
+//                                    return new PasswordAuthentication("emailAddress@gmail.com", "Password123");
+//                                }
+//                            });
+//
+//                            try {
+//                                // Create a default MimeMessage object.
+//                                MimeMessage emailMessage = new MimeMessage(mailSession);
+//
+//                                // Set From: header field of the header.
+//                                emailMessage.setFrom(new InternetAddress(from));
+//
+//                                // Set To: header field of the header.
+//                                emailMessage.addRecipient(Message.RecipientType.TO,
+//                                        new InternetAddress(to));
+//                                // Set Subject: header field
+//                                emailMessage.setSubject("Your Appointment!");
+//
+//                                // Now set the actual message
+//                                emailMessage.setText("Your Appointment has been confirmed.");
+//
+//                                // Send message
+//                                //Transport Transport = mailSession.getTransport();
+//                                //Transport.connect("bstaroscik10@gmail.com", "PHoraf09?%$");
+//                                Transport.send(emailMessage);
+//                                //Transport.close();
+//                                
+//                            } catch (MessagingException mex) {
+//                                mex.printStackTrace();
+//                                
+//                            }
+//                            
+//                            //End Email function
                         } catch (SQLException ex) {
                             Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                         }
