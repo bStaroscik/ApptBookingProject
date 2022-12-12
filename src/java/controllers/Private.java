@@ -184,6 +184,7 @@ public class Private extends HttpServlet {
             //<editor-fold desc="Edit Profile Redirect">
             case "editProfile": { //for any user
                 request.setAttribute("user", user);
+                request.setAttribute("userOriginalID", user.getEmail());
                 url = "/EditUserProfile.jsp";
                 break;
             }
@@ -191,6 +192,7 @@ public class Private extends HttpServlet {
 
             //<editor-fold desc="Submit Edit Profile">
             case "submitProfileEdit": { //for any user
+                String originalID = request.getParameter("userOriginalID");
                 String firstName = request.getParameter("firstName");
                 String lastName = request.getParameter("lastName");
                 String address = request.getParameter("address");
@@ -234,23 +236,32 @@ public class Private extends HttpServlet {
                     message += "State Must Be In Abbreviated Format (XX).<br />";
                 } else {
                     request.setAttribute("state", state);
-                    user.setState(state);
                 }
+                user.setState(state);
 
-                if (zip.length() > 6 || zip.length() < 1) {
+
+                
+                if(zip.length() < 1){
                     message += "Zip Code Must Be 6 Digits.<br />";
                 } else {
-                    int zipCode = Integer.parseInt(zip);
-                    request.setAttribute("zipCode", zipCode);
-                    user.setZipCode(zipCode);
+                    if (zip.length() > 6) {
+                    message += "Zip Code Must Be 6 Digits.<br />";
+                    request.setAttribute("user.zipCode", zip);
+                    } else {
+                        try {
+                            user.setZipCode(Integer.parseInt(zip));
+                        } catch (Exception e) {
+                            message += "Zip Code Must Be an Integer. <br />";
+                        }
+                    }
                 }
-
+                
                 if (phoneNumber.length() < 1) {
                     message += "Enter A Phone Number.<br />";
                 } else {
                     request.setAttribute("phoneNumber", phoneNumber);
-                    user.setPhoneNumber(phoneNumber);
                 }
+                user.setPhoneNumber(phoneNumber);
 
                 if (email.length() < 5) {
                     message += "Email must be more than 5 characters.<br />";
@@ -262,12 +273,18 @@ public class Private extends HttpServlet {
                     } catch (SQLException ex) {
                         Logger.getLogger(Public.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    if (userCompare != null) {
-                        message += "Email already exists.<br />";
+                    if (email.equals(originalID)){
+                        
+                    } else {
+                        if (userCompare.equals(null)) {
+                        } else {
+                            message += "Email already exists.<br />";
+                        }
                     }
                     request.setAttribute("email", email);
-                    user.setEmail(email);
                 }
+                user.setEmail(email);
+
 
                 if (password.length() < 10) {
                     message += "Password must be more than 10 characters.<br />";
@@ -286,7 +303,7 @@ public class Private extends HttpServlet {
                     request.setAttribute("password", password);
                     user.setPassword(hash);
                 }
-
+                
                 if ("".equals(message)) {
                     try {
                         BookingDB.updateUser(user);
@@ -304,6 +321,13 @@ public class Private extends HttpServlet {
                             break;
                         case "patient":
                             url = "/UserAppointments.jsp";
+                                LinkedHashMap<Integer, Appointments> appointments = new LinkedHashMap();
+                                try {
+                                    appointments = BookingDB.selectLoggedInUserAppointments(user.getUserID());
+                                } catch (Exception e) {
+                                    LOG.log(Level.SEVERE, null, e);
+                                }
+                                request.setAttribute("appointments", appointments);
                             break;
                         case "admin":
                             url = "/ADMIN/Admin.jsp";
@@ -322,9 +346,10 @@ public class Private extends HttpServlet {
                             break;
                     }
                 } else {
-                    request.setAttribute("message", message);
+                    request.setAttribute("errorMessage", message);
                     request.setAttribute("user", user);
                     request.setAttribute("email", email);
+                    request.setAttribute("userOriginalID", originalID);
                     url = "/EditUserProfile.jsp";
                 }
                 break;
